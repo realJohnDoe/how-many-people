@@ -93,6 +93,12 @@ const circlesData: CircleData[] = [
     numberOfPersons: 612000,
     yearlyTurnOver: 59000000000,
   },
+  {
+    id: 19,
+    name: "OpenAI",
+    numberOfPersons: 3000,
+    yearlyTurnOver: 3700000000,
+  },
 ];
 
 // --- Helper Functions ---
@@ -181,11 +187,12 @@ function calculatePositions(
 // --- The React Component ---
 function App() {
   const [selectedId, setSelectedId] = React.useState(2);
+  const [orderBy, setOrderBy] = React.useState<"numberOfPersons" | "yearlyTurnOver">("numberOfPersons");
 
   const targetDiameter = 20; // rem
   const fixedDistance = 3; // rem
 
-  const areas = circlesData.map((c) => c.numberOfPersons);
+  const areas = circlesData.map((c) => c[orderBy]);
   const selectedIndex = circlesData.findIndex((c) => c.id === selectedId);
 
   const posXValues = calculatePositions(
@@ -195,88 +202,107 @@ function App() {
     fixedDistance
   );
 
-  const anchorPersons =
-    circlesData.find((c) => c.id === selectedId)?.numberOfPersons || 1;
-  const getDisplayDiameter = (persons: number) =>
-    targetDiameter * Math.sqrt(persons / anchorPersons);
+  const anchorValue =
+    circlesData.find((c) => c.id === selectedId)?.[orderBy] || 1;
+  const getDisplayDiameter = (value: number) =>
+    targetDiameter * Math.sqrt(value / anchorValue);
 
   return (
-    <div className="relative w-screen h-screen">
-      {circlesData.map((circle, index) => {
-        const posX = posXValues[index];
-        if (posX === undefined) return null;
+    <>
+      <div className="absolute top-4 left-4 z-10">
+        <label htmlFor="orderBy" className="text-white mr-2">
+          Order by:
+        </label>
+        <select
+          id="orderBy"
+          value={orderBy}
+          onChange={(e) =>
+            setOrderBy(e.target.value as "numberOfPersons" | "yearlyTurnOver")
+          }
+          className="bg-gray-700 text-white rounded p-2"
+        >
+          <option value="numberOfPersons">Number of Persons</option>
+          <option value="yearlyTurnOver">Yearly Turnover</option>
+        </select>
+      </div>
 
-        const diameter = getDisplayDiameter(circle.numberOfPersons);
-        const selectedCircleRadius = targetDiameter / 2;
+      <div className="relative w-screen h-screen">
+        {circlesData.map((circle, index) => {
+          const posX = posXValues[index];
+          if (posX === undefined) return null;
 
-        const wrapperStyle = {
-          left: `calc(50% + ${posX * selectedCircleRadius}rem)`,
-          transition: "left 0.5s ease-in-out",
-        };
+          const diameter = getDisplayDiameter(circle[orderBy]);
+          const selectedCircleRadius = targetDiameter / 2;
 
-        const scaleFactor = diameter / targetDiameter;
-        const innerStyle = {
-          width: `${targetDiameter}rem`,
-          height: `${targetDiameter}rem`,
-          transform: `scale(${scaleFactor})`,
-          transition: "transform 0.5s ease-in-out",
-        };
+          const wrapperStyle = {
+            left: `calc(50% + ${posX * selectedCircleRadius}rem)`,
+            transition: "left 0.5s ease-in-out",
+          };
 
-        const isSelected = circle.id === selectedId;
-        const bgColor = isSelected ? "bg-yellow-400" : "bg-gray-500";
+          const scaleFactor = diameter / targetDiameter;
+          const innerStyle = {
+            width: `${targetDiameter}rem`,
+            height: `${targetDiameter}rem`,
+            transform: `scale(${scaleFactor})`,
+            transition: "transform 0.5s ease-in-out",
+          };
 
-        // Calculate daily turnover
-        const dailyTurnover = circle.yearlyTurnOver / 365;
-        const formattedDailyTurnover = formatToOneSignificantDigit(
-          dailyTurnover,
-          true
-        );
-        const formattedPersons = formatToOneSignificantDigit(
-          circle.numberOfPersons
-        );
+          const isSelected = circle.id === selectedId;
+          const bgColor = isSelected ? "bg-yellow-400" : "bg-gray-500";
 
-        return (
-          <div
-            key={circle.id}
-            onClick={() => setSelectedId(circle.id)}
-            style={wrapperStyle}
-            className="absolute bottom-[10vh] -translate-x-1/2 cursor-pointer"
-          >
+          // Calculate daily turnover
+          const dailyTurnover = circle.yearlyTurnOver / 365;
+          const formattedDailyTurnover = formatToOneSignificantDigit(
+            dailyTurnover,
+            true
+          );
+          const formattedPersons = formatToOneSignificantDigit(
+            circle.numberOfPersons
+          );
+
+          return (
             <div
-              style={innerStyle}
-              className={`${bgColor} rounded-full flex justify-center items-center text-black font-bold p-2 text-center origin-bottom`}
+              key={circle.id}
+              onClick={() => setSelectedId(circle.id)}
+              style={wrapperStyle}
+              className="absolute bottom-[10vh] -translate-x-1/2 cursor-pointer"
             >
-              <div className="flex flex-col items-center">
-                <span
-                  style={{
-                    fontSize: `1.5rem`,
-                    lineHeight: "1",
-                  }}
-                >
-                  {circle.name}
-                </span>
-                <span
-                  style={{
-                    fontSize: `0.75rem`,
-                    lineHeight: "1",
-                  }}
-                >
-                  Persons: {formattedPersons}
-                </span>
-                <span
-                  style={{
-                    fontSize: `0.75rem`,
-                    lineHeight: "1",
-                  }}
-                >
-                  Daily Turnover: {formattedDailyTurnover}
-                </span>
+              <div
+                style={innerStyle}
+                className={`${bgColor} rounded-full flex justify-center items-center text-black font-bold p-2 text-center origin-bottom`}
+              >
+                <div className="flex flex-col items-center">
+                  <span
+                    style={{
+                      fontSize: `1.5rem`,
+                      lineHeight: "1",
+                    }}
+                  >
+                    {circle.name}
+                  </span>
+                  <span
+                    style={{
+                      fontSize: `0.75rem`,
+                      lineHeight: "1",
+                    }}
+                  >
+                    Persons: {formattedPersons}
+                  </span>
+                  <span
+                    style={{
+                      fontSize: `0.75rem`,
+                      lineHeight: "1",
+                    }}
+                  >
+                    Daily Turnover: {formattedDailyTurnover}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        );
-      })}
-    </div>
+          );
+        })}
+      </div>
+    </>
   );
 }
 
