@@ -3,39 +3,79 @@ import React from "react";
 function App() {
   type Circle = {
     area: number;
-    posX: number; // posX is a float on an x-axis, in units of the center circle's radius
+    posX: number; // in units of the center circle's radius
   };
 
-  const circlesData: Circle[] = [
-    { area: 1, posX: -2.0 },
-    { area: 2, posX: 0 },
-    { area: 10, posX: 3.5 },
+  const circlesData: { area: number }[] = [
+    { area: 1 },
+    { area: 2 },
+    { area: 10 },
   ];
 
-  // The diameter for a circle with area 1 is 7rem (w-28)
-  const baseDiameter = 7;
+  // --- Dynamic Calculation of Positions ---
+  const baseDiameter = 5; // rem
+  const fixedDistance = 3; // rem
 
-  // Radius of the center circle (area 2) in rem, which is our unit of measurement
-  const centerCircleRadius = (baseDiameter * Math.sqrt(2)) / 2;
+  const getRadius = (area: number) => (baseDiameter * Math.sqrt(area)) / 2;
+
+  const calculateDeltaX = (area1: number, area2: number) => {
+    const r1 = getRadius(area1);
+    const r2 = getRadius(area2);
+    const hypotenuse = r1 + fixedDistance + r2;
+    const vertical = Math.abs(r1 - r2);
+    return Math.sqrt(hypotenuse ** 2 - vertical ** 2);
+  };
+
+  const anchorArea = 2;
+  const centerCircleRadius = getRadius(anchorArea); // This is our unit
+
+  const sortedByArea = [...circlesData].sort((a, b) => a.area - b.area);
+  const anchorIndex = sortedByArea.findIndex((c) => c.area === anchorArea);
+
+  const posXValues: { [area: number]: number } = { [anchorArea]: 0 };
+  let currentPosRem = 0;
+
+  // Calculate posX for circles to the right of the anchor
+  for (let i = anchorIndex + 1; i < sortedByArea.length; i++) {
+    currentPosRem += calculateDeltaX(
+      sortedByArea[i - 1].area,
+      sortedByArea[i].area
+    );
+    posXValues[sortedByArea[i].area] = currentPosRem / centerCircleRadius;
+  }
+
+  // Calculate posX for circles to the left of the anchor
+  currentPosRem = 0;
+  for (let i = anchorIndex - 1; i >= 0; i--) {
+    currentPosRem -= calculateDeltaX(
+      sortedByArea[i].area,
+      sortedByArea[i + 1].area
+    );
+    posXValues[sortedByArea[i].area] = currentPosRem / centerCircleRadius;
+  }
+
+  const positionedCircles: Circle[] = circlesData.map((c) => ({
+    ...c,
+    posX: posXValues[c.area],
+  }));
+  // --- End of Calculation ---
 
   return (
     <div className="relative w-screen h-screen">
-      {circlesData.map((circle) => {
-        const diameter = baseDiameter * Math.sqrt(circle.area);
+      {positionedCircles.map((circle) => {
+        const diameter = getRadius(circle.area) * 2;
         const style = {
           width: `${diameter}rem`,
           height: `${diameter}rem`,
           left: `calc(50% + ${circle.posX * centerCircleRadius}rem)`,
         };
-
-        // Adjust font size based on circle size
         const fontSize = 1.5 * Math.sqrt(circle.area);
 
         return (
           <div
             key={circle.area}
             style={style}
-            className="bg-gray-500 rounded-full flex justify-center items-center text-black font-bold absolute bottom-[10vh] -translate-x-1/2"
+            className="bg-gray-500 rounded-full flex justify-center items-center text-white font-bold absolute bottom-[10vh] -translate-x-1/2"
           >
             <span style={{ fontSize: `${fontSize}rem`, lineHeight: "1" }}>
               {circle.area}
