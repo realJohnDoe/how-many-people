@@ -57,6 +57,12 @@ const circlesData: CircleData[] = [
     numberOfPersons: 8000000000,
     yearlyTurnOver: 100000000000000,
   },
+  {
+    id: 13,
+    name: "Elon Musk",
+    numberOfPersons: 1,
+    yearlyTurnOver: 300000000000,
+  },
 ];
 
 // --- Helper Functions ---
@@ -72,7 +78,7 @@ function formatToOneSignificantDigit(
 
   const options: Intl.NumberFormatOptions = {
     notation: "compact",
-    compactDisplay: "short",
+    compactDisplay: "long",
     maximumFractionDigits: 0,
   };
 
