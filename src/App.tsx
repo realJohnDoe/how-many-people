@@ -104,7 +104,7 @@ function calculatePositions(
 function App() {
   const [selectedId, setSelectedId] = React.useState(2);
 
-  const targetDiameter = 10; // rem
+  const targetDiameter = 20; // rem
   const fixedDistance = 3; // rem
 
   const areas = circlesData.map((c) => c.numberOfPersons);
