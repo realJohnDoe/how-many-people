@@ -14,6 +14,7 @@ const circlesData: CircleData[] = [
   { id: 3, name: "Your Friends", numberOfPersons: 30 },
   { id: 4, name: "A Village", numberOfPersons: 200 },
   { id: 5, name: "Town", numberOfPersons: 10000 },
+  { id: 6, name: "City", numberOfPersons: 1000000 },
 ];
 
 // --- Pure Geometric Calculation Function ---
@@ -106,13 +107,19 @@ function App() {
         const diameter = getDisplayDiameter(circle.numberOfPersons);
         const selectedCircleRadius = targetDiameter / 2;
 
-        const style = {
-          width: `${diameter}rem`,
-          height: `${diameter}rem`,
+        const wrapperStyle = {
           left: `calc(50% + ${posX * selectedCircleRadius}rem)`,
-          transition: "all 0.5s ease-in-out",
+          transition: "left 0.5s ease-in-out",
         };
-        const fontSize = (1.5 * diameter) / targetDiameter;
+
+        const scaleFactor = diameter / targetDiameter;
+        const innerStyle = {
+          width: `${targetDiameter}rem`,
+          height: `${targetDiameter}rem`,
+          transform: `scale(${scaleFactor})`,
+          transition: "transform 0.5s ease-in-out",
+        };
+
         const isSelected = circle.id === selectedId;
         const bgColor = isSelected ? "bg-yellow-400" : "bg-gray-500";
 
@@ -120,28 +127,31 @@ function App() {
           <div
             key={circle.id}
             onClick={() => setSelectedId(circle.id)}
-            style={style}
-            className={`${bgColor} rounded-full flex justify-center items-center text-black font-bold absolute bottom-[10vh] -translate-x-1/2 cursor-pointer p-2 text-center`}
+            style={wrapperStyle}
+            className="absolute bottom-[10vh] -translate-x-1/2 cursor-pointer"
           >
-            <div className="flex flex-col items-center">
-              <span
-                style={{
-                  fontSize: `${fontSize}rem`,
-                  lineHeight: "1",
-                  transition: "font-size 0.5s ease-in-out",
-                }}
-              >
-                {circle.name}
-              </span>
-              <span
-                style={{
-                  fontSize: `${fontSize * 0.5}rem`,
-                  lineHeight: "1",
-                  transition: "font-size 0.5s ease-in-out",
-                }}
-              >
-                {circle.numberOfPersons}
-              </span>
+            <div
+              style={innerStyle}
+              className={`${bgColor} rounded-full flex justify-center items-center text-black font-bold p-2 text-center origin-bottom`}
+            >
+              <div className="flex flex-col items-center">
+                <span
+                  style={{
+                    fontSize: `1.5rem`,
+                    lineHeight: "1",
+                  }}
+                >
+                  {circle.name}
+                </span>
+                <span
+                  style={{
+                    fontSize: `0.75rem`,
+                    lineHeight: "1",
+                  }}
+                >
+                  {circle.numberOfPersons}
+                </span>
+              </div>
             </div>
           </div>
         );
