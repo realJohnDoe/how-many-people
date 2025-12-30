@@ -41,6 +41,24 @@ const circlesData: CircleData[] = [
   },
 ];
 
+// --- Helper Functions ---
+function formatNumberCompact(num: number, isCurrency: boolean = false): string {
+  if (num === 0) return isCurrency ? "$0" : "0";
+
+  const options: Intl.NumberFormatOptions = {
+    notation: "compact",
+    compactDisplay: "short",
+    maximumFractionDigits: 1, // At most 1 decimal
+  };
+
+  if (isCurrency) {
+    options.style = "currency";
+    options.currency = "USD"; // Assuming USD
+  }
+
+  return new Intl.NumberFormat("en-US", options).format(num);
+}
+
 // --- Pure Geometric Calculation Function ---
 function calculatePositions(
   areas: number[],
@@ -150,8 +168,7 @@ function App() {
 
         // Calculate daily turnover
         const dailyTurnover = circle.yearlyTurnOver / 365;
-        const formattedDailyTurnover = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(dailyTurnover);
-
+        const formattedDailyTurnover = formatNumberCompact(dailyTurnover, true);
 
         return (
           <div
@@ -179,15 +196,15 @@ function App() {
                     lineHeight: "1",
                   }}
                 >
-                  {circle.numberOfPersons}
+                  Persons: {formatNumberCompact(circle.numberOfPersons)}
                 </span>
                 <span
                   style={{
-                    fontSize: `0.6rem`, // Smaller font for daily turnover
+                    fontSize: `0.75rem`, // Smaller font for daily turnover
                     lineHeight: "1",
                   }}
                 >
-                  {formattedDailyTurnover}
+                  Turnover: {formattedDailyTurnover}
                 </span>
               </div>
             </div>
