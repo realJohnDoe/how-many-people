@@ -1,34 +1,42 @@
-function App() {
-  type Circle = {
-    area: number;
-    posX: number; // in units of the center circle's radius
-  };
+// --- Types ---
+type Circle = {
+  area: number;
+  posX: number; // in units of the center circle's radius
+};
 
-  const circlesData: { area: number }[] = [
-    { area: 1 },
-    { area: 2 },
-    { area: 10 },
-  ];
+// --- Constants ---
+const circlesData: { area: number }[] = [
+  { area: 1 },
+  { area: 2 },
+  { area: 10 },
+];
+const baseDiameter = 7; // rem
+const fixedDistance = 3; // rem
+const anchorArea = 2;
 
-  // --- Dynamic Calculation of Positions ---
-  const baseDiameter = 5; // rem
-  const fixedDistance = 3; // rem
+// --- Helper Functions ---
+const getRadius = (area: number): number =>
+  (baseDiameter * Math.sqrt(area)) / 2;
 
-  const getRadius = (area: number) => (baseDiameter * Math.sqrt(area)) / 2;
+const calculateDeltaX = (area1: number, area2: number): number => {
+  const r1 = getRadius(area1);
+  const r2 = getRadius(area2);
+  const hypotenuse = r1 + fixedDistance + r2;
+  const vertical = Math.abs(r1 - r2);
+  return Math.sqrt(hypotenuse ** 2 - vertical ** 2);
+};
 
-  const calculateDeltaX = (area1: number, area2: number) => {
-    const r1 = getRadius(area1);
-    const r2 = getRadius(area2);
-    const hypotenuse = r1 + fixedDistance + r2;
-    const vertical = Math.abs(r1 - r2);
-    return Math.sqrt(hypotenuse ** 2 - vertical ** 2);
-  };
-
-  const anchorArea = 2;
+// --- Main Calculation Function ---
+function calculatePositions(circles: { area: number }[]): Circle[] {
   const centerCircleRadius = getRadius(anchorArea); // This is our unit
 
-  const sortedByArea = [...circlesData].sort((a, b) => a.area - b.area);
+  const sortedByArea = [...circles].sort((a, b) => a.area - b.area);
   const anchorIndex = sortedByArea.findIndex((c) => c.area === anchorArea);
+
+  if (anchorIndex === -1) {
+    console.error("Anchor circle not found in data!");
+    return [];
+  }
 
   const posXValues: { [area: number]: number } = { [anchorArea]: 0 };
   let currentPosRem = 0;
@@ -52,11 +60,16 @@ function App() {
     posXValues[sortedByArea[i].area] = currentPosRem / centerCircleRadius;
   }
 
-  const positionedCircles: Circle[] = circlesData.map((c) => ({
+  return circles.map((c) => ({
     ...c,
     posX: posXValues[c.area],
   }));
-  // --- End of Calculation ---
+}
+
+// --- The React Component ---
+function App() {
+  const positionedCircles = calculatePositions(circlesData);
+  const centerCircleRadius = getRadius(anchorArea);
 
   return (
     <div className="relative w-screen h-screen">
