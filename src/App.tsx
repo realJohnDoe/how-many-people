@@ -10,7 +10,6 @@ const circlesData: { area: number }[] = [
   { area: 2 },
   { area: 10 },
 ];
-const fixedDistance = 3; // rem
 const anchorArea = 2;
 
 // --- Helper Functions ---
@@ -19,13 +18,14 @@ function getRadius(area: number): number {
   return (baseDiameter * Math.sqrt(area)) / 2;
 }
 
-const calculateDeltaX = (area1: number, area2: number): number => {
+function calculateDeltaX(area1: number, area2: number): number {
+  const fixedDistance = 3; // rem
   const r1 = getRadius(area1);
   const r2 = getRadius(area2);
   const hypotenuse = r1 + fixedDistance + r2;
   const vertical = Math.abs(r1 - r2);
   return Math.sqrt(hypotenuse ** 2 - vertical ** 2);
-};
+}
 
 // --- Main Calculation Function ---
 function calculatePositions(circles: { area: number }[]): Circle[] {
