@@ -125,11 +125,21 @@ function App() {
             className={`${bgColor} rounded-full flex justify-center items-center text-black font-bold absolute bottom-[10vh] -translate-x-1/2 cursor-pointer p-2 text-center`}
           >
             <div className="flex flex-col items-center">
-              <span style={{ fontSize: `${fontSize}rem`, lineHeight: "1" }}>
+              <span
+                style={{
+                  fontSize: `${fontSize}rem`,
+                  lineHeight: "1",
+                  transition: "font-size 0.5s ease-in-out",
+                }}
+              >
                 {circle.name}
               </span>
               <span
-                style={{ fontSize: `${fontSize * 0.5}rem`, lineHeight: "1" }}
+                style={{
+                  fontSize: `${fontSize * 0.5}rem`,
+                  lineHeight: "1",
+                  transition: "font-size 0.5s ease-in-out",
+                }}
               >
                 {circle.numberOfPersons}
               </span>
