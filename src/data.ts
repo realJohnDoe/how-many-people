@@ -22,8 +22,8 @@ export const circlesData: CircleData[] = [
   {
     id: 7,
     name: "Walmart",
-    numberOfPersons: 2000000,
-    yearlyTurnOver: 700000000000,
+    numberOfPersons: 2100000,
+    yearlyTurnOver: 681000000000,
   },
   {
     id: 8,
