@@ -2,7 +2,7 @@ import React from "react";
 import { circlesData } from "./data";
 
 // --- Helper Functions ---
-function formatToOneSignificantDigit(
+function formatToTwoSignificantDigits(
   num: number,
   isCurrency: boolean = false
 ): string {
@@ -12,16 +12,38 @@ function formatToOneSignificantDigit(
   const absNum = Math.abs(num);
   const sign = num < 0 ? "-" : "";
 
-  const power = Math.floor(Math.log10(absNum));
-  const factor = 10 ** power;
-  const rounded = Math.round(absNum / factor) * factor;
+  const options: Intl.NumberFormatOptions = {
+    maximumSignificantDigits: 2,
+    minimumSignificantDigits: 1 // Ensure at least one digit is shown
+  };
 
-  if (rounded >= 1.0e12) return prefix + sign + rounded / 1.0e12 + " trillion";
-  if (rounded >= 1.0e9) return prefix + sign + rounded / 1.0e9 + " billion";
-  if (rounded >= 1.0e6) return prefix + sign + rounded / 1.0e6 + " million";
-  if (rounded >= 1.0e3) return prefix + sign + rounded / 1.0e3 + " thousand";
+  let formatted = absNum.toLocaleString(undefined, options);
 
-  return prefix + sign + rounded;
+  // Add the "trillion", "billion", "million", "thousand" suffix
+  // This part needs to be done carefully to ensure two significant digits
+  // are maintained even with the suffix.
+  // We'll re-evaluate the scale after toLocaleString to get a clean number for comparison.
+  let scaledNum = absNum;
+  let suffix = "";
+
+  if (absNum >= 1.0e12) {
+    scaledNum = absNum / 1.0e12;
+    suffix = " trillion";
+  } else if (absNum >= 1.0e9) {
+    scaledNum = absNum / 1.0e9;
+    suffix = " billion";
+  } else if (absNum >= 1.0e6) {
+    scaledNum = absNum / 1.0e6;
+    suffix = " million";
+  } else if (absNum >= 1.0e3) {
+    scaledNum = absNum / 1.0e3;
+    suffix = " thousand";
+  }
+
+  // Format the scaled number for the suffix, ensuring two significant digits
+  formatted = scaledNum.toLocaleString(undefined, options);
+  
+  return prefix + sign + formatted + suffix;
 }
 
 // --- Pure Geometric Calculation Function ---
@@ -154,11 +176,11 @@ function App() {
 
           // Calculate daily turnover
           const dailyTurnover = circle.yearlyTurnOver / 365;
-          const formattedDailyTurnover = formatToOneSignificantDigit(
+          const formattedDailyTurnover = formatToTwoSignificantDigits(
             dailyTurnover,
             true
           );
-          const formattedPersons = formatToOneSignificantDigit(
+          const formattedPersons = formatToTwoSignificantDigits(
             circle.numberOfPersons
           );
 
