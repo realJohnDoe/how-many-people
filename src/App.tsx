@@ -186,13 +186,14 @@ function App() {
               style={wrapperStyle}
               className="absolute bottom-[10vh] -translate-x-1/2 cursor-pointer"
             >
-              <Circle
-                name={circle.name}
-                formattedPersons={formattedPersons}
-                formattedDailyTurnover={formattedDailyTurnover}
-                isSelected={isSelected}
-                style={innerStyle}
-              />
+              <div style={innerStyle} className="origin-bottom">
+                <Circle
+                  name={circle.name}
+                  formattedPersons={formattedPersons}
+                  formattedDailyTurnover={formattedDailyTurnover}
+                  isSelected={isSelected}
+                />
+              </div>
             </div>
           );
         })}
