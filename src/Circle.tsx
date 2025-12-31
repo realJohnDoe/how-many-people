@@ -66,11 +66,12 @@ const Circle: React.FC<CircleProps> = ({
   const formattedPersons = formatToTwoSignificantDigits(numberOfPersons);
 
   return (
-    <div
-      className={`${bgColor} rounded-full flex justify-center items-center text-black font-bold p-2 text-center w-full h-full transition-colors duration-500 ease-in-out`}
-    >
-      <div className="flex flex-col items-center">
-        <span
+    <div className="relative w-full h-full">
+      {/* The actual circle content */}
+      <div
+        className={`${bgColor} rounded-full flex justify-center items-center text-white font-bold p-2 text-center w-full h-full transition-colors duration-500 ease-in-out`}
+      >
+        <span // Only the name remains inside the circle
           style={{
             fontSize: `1.5rem`,
             lineHeight: "1",
@@ -78,23 +79,15 @@ const Circle: React.FC<CircleProps> = ({
         >
           {name}
         </span>
-        <span
-          style={{
-            fontSize: `0.75rem`,
-            lineHeight: "1",
-          }}
-        >
-          Persons: {formattedPersons}
-        </span>
-        <span
-          style={{
-            fontSize: `0.75rem`,
-            lineHeight: "1",
-          }}
-        >
-          Daily Turnover: {formattedDailyTurnover}
-        </span>
       </div>
+
+      {/* The text positioned below the circle (only for selected) */}
+      {isSelected && ( // Only show for selected circle
+        <div className="absolute top-full mt-2 text-white text-lg font-bold text-center w-max left-1/2 -translate-x-1/2">
+          <div>Persons: {formattedPersons}</div>
+          <div>Daily Turnover: {formattedDailyTurnover}</div>
+        </div>
+      )}
     </div>
   );
 };
