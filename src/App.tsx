@@ -1,6 +1,7 @@
 import React from "react";
 import { circlesData } from "./data";
 import Dropdown from "./Dropdown";
+import Circle from "./Circle";
 
 // --- Helper Functions ---
 function formatToTwoSignificantDigits(
@@ -167,7 +168,6 @@ function App() {
           };
 
           const isSelected = circle.id === selectedId;
-          const bgColor = isSelected ? "bg-yellow-400" : "bg-gray-500";
 
           // Calculate daily turnover
           const dailyTurnover = circle.yearlyTurnOver / 365;
@@ -186,37 +186,13 @@ function App() {
               style={wrapperStyle}
               className="absolute bottom-[10vh] -translate-x-1/2 cursor-pointer"
             >
-              <div
+              <Circle
+                name={circle.name}
+                formattedPersons={formattedPersons}
+                formattedDailyTurnover={formattedDailyTurnover}
+                isSelected={isSelected}
                 style={innerStyle}
-                className={`${bgColor} rounded-full flex justify-center items-center text-black font-bold p-2 text-center origin-bottom`}
-              >
-                <div className="flex flex-col items-center">
-                  <span
-                    style={{
-                      fontSize: `1.5rem`,
-                      lineHeight: "1",
-                    }}
-                  >
-                    {circle.name}
-                  </span>
-                  <span
-                    style={{
-                      fontSize: `0.75rem`,
-                      lineHeight: "1",
-                    }}
-                  >
-                    Persons: {formattedPersons}
-                  </span>
-                  <span
-                    style={{
-                      fontSize: `0.75rem`,
-                      lineHeight: "1",
-                    }}
-                  >
-                    Daily Turnover: {formattedDailyTurnover}
-                  </span>
-                </div>
-              </div>
+              />
             </div>
           );
         })}
