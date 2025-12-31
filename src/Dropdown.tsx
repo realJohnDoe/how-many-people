@@ -1,3 +1,5 @@
+import React from "react";
+
 type DropdownProps = {
   orderBy: "numberOfPersons" | "yearlyTurnOver";
   setOrderBy: (orderBy: "numberOfPersons" | "yearlyTurnOver") => void;
@@ -11,6 +13,17 @@ function Dropdown({
   isMenuOpen,
   setIsMenuOpen,
 }: DropdownProps) {
+  const [hoveredOption, setHoveredOption] = React.useState<
+    "numberOfPersons" | "yearlyTurnOver" | null
+  >(null);
+
+  const getOptionClassName = (option: "numberOfPersons" | "yearlyTurnOver") => {
+    if (hoveredOption) {
+      return hoveredOption === option ? "bg-gray-600" : "";
+    }
+    return orderBy === option ? "bg-gray-600" : "";
+  };
+
   return (
     <div className="absolute top-4 left-4 z-10">
       <button
@@ -20,16 +33,20 @@ function Dropdown({
         <img src="/src/icon.svg" alt="order by" className="w-6 h-6" />
       </button>
       {isMenuOpen && (
-        <div className="absolute top-12 left-0 bg-gray-700 text-white rounded p-2 w-48">
+        <div
+          className="absolute top-12 left-0 bg-gray-700 text-white rounded p-2 w-48"
+          onMouseLeave={() => setHoveredOption(null)}
+        >
           <div className="font-bold mb-2">Circle Size by...</div>
           <div
             onClick={() => {
               setOrderBy("numberOfPersons");
               setIsMenuOpen(false);
             }}
-            className={`cursor-pointer p-1 hover:bg-gray-600 ${
-              orderBy === "numberOfPersons" ? "bg-gray-600" : ""
-            }`}
+            onMouseEnter={() => setHoveredOption("numberOfPersons")}
+            className={`cursor-pointer p-1 ${getOptionClassName(
+              "numberOfPersons"
+            )}`}
           >
             Number of Persons
           </div>
@@ -38,9 +55,10 @@ function Dropdown({
               setOrderBy("yearlyTurnOver");
               setIsMenuOpen(false);
             }}
-            className={`cursor-pointer p-1 hover:bg-gray-600 ${
-              orderBy === "yearlyTurnOver" ? "bg-gray-600" : ""
-            }`}
+            onMouseEnter={() => setHoveredOption("yearlyTurnOver")}
+            className={`cursor-pointer p-1 ${getOptionClassName(
+              "yearlyTurnOver"
+            )}`}
           >
             Yearly Turnover
           </div>
