@@ -34,7 +34,7 @@ export const circlesData: CircleData[] = [
   {
     id: 9,
     name: "Bosch",
-    numberOfPersons: 400000,
+    numberOfPersons: 418000,
     yearlyTurnOver: 90000000000,
   },
   {
@@ -70,14 +70,14 @@ export const circlesData: CircleData[] = [
   {
     id: 15,
     name: "Amazon",
-    numberOfPersons: 2000000,
-    yearlyTurnOver: 600000000000,
+    numberOfPersons: 1556000,
+    yearlyTurnOver: 638000000000,
   },
   {
     id: 16,
     name: "State Grid Corporation of China",
-    numberOfPersons: 1000000,
-    yearlyTurnOver: 500000000000,
+    numberOfPersons: 1361000,
+    yearlyTurnOver: 546000000000,
   },
   {
     id: 17,
