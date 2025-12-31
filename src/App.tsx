@@ -3,7 +3,6 @@ import { circlesData } from "./data";
 import Dropdown from "./Dropdown";
 import Circle from "./Circle";
 
-
 // --- Pure Geometric Calculation Function ---
 function calculatePositions(
   areas: number[],
@@ -90,9 +89,19 @@ function App() {
   const getDisplayDiameter = (value: number) =>
     targetDiameter * Math.sqrt(value / anchorValue);
 
+  const overlayPadding = 4; // rem
+  const overlayWidth = targetDiameter + overlayPadding;
+  const overlayStyle: React.CSSProperties = {
+    top: "1rem",
+    bottom: "5vh",
+    left: `calc(50% - ${overlayWidth / 2}rem)`,
+    width: `${overlayWidth}rem`,
+    zIndex: 0,
+  };
+
   return (
     <>
-      <div className="absolute top-4 left-1/2 text-black -translate-x-1/2 text-3xl font-bold z-10">
+      <div className="absolute top-4 left-1/2 text-white -translate-x-1/2 text-3xl font-bold z-10">
         How many people are...
       </div>
       <Dropdown
@@ -101,6 +110,13 @@ function App() {
         isMenuOpen={isMenuOpen}
         setIsMenuOpen={setIsMenuOpen}
       />
+
+      {selectedId && (
+        <div
+          className="absolute rounded-lg bg-gray-700 bg-opacity-30"
+          style={overlayStyle}
+        ></div>
+      )}
 
       <div className="relative w-screen h-screen">
         {circlesData.map((circle, index) => {
