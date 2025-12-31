@@ -139,7 +139,6 @@ function App() {
         How many people are...
       </div>
       <Dropdown
-        orderBy={orderBy}
         setOrderBy={setOrderBy}
         isMenuOpen={isMenuOpen}
         setIsMenuOpen={setIsMenuOpen}

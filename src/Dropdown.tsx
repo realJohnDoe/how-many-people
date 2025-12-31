@@ -1,18 +1,10 @@
-import React from "react";
-
 type DropdownProps = {
-  orderBy: "numberOfPersons" | "yearlyTurnOver";
   setOrderBy: (orderBy: "numberOfPersons" | "yearlyTurnOver") => void;
   isMenuOpen: boolean;
   setIsMenuOpen: (isMenuOpen: boolean) => void;
 };
 
-function Dropdown({
-  orderBy,
-  setOrderBy,
-  isMenuOpen,
-  setIsMenuOpen,
-}: DropdownProps) {
+function Dropdown({ setOrderBy, isMenuOpen, setIsMenuOpen }: DropdownProps) {
   return (
     <div className="absolute top-4 left-4 z-10">
       <button
