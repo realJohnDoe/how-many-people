@@ -62,7 +62,10 @@ const Circle: React.FC<CircleProps> = ({
 
   // Calculate daily turnover and format numbers here
   const dailyTurnover = yearlyTurnOver / 365;
-  const formattedDailyTurnover = formatToTwoSignificantDigits(dailyTurnover, true);
+  const formattedDailyTurnover = formatToTwoSignificantDigits(
+    dailyTurnover,
+    true
+  );
   const formattedPersons = formatToTwoSignificantDigits(numberOfPersons);
 
   return (
@@ -82,12 +85,14 @@ const Circle: React.FC<CircleProps> = ({
       </div>
 
       {/* The text positioned below the circle (only for selected) */}
-      {isSelected && ( // Only show for selected circle
-        <div className="absolute top-full mt-2 text-white text-lg font-bold text-center w-max left-1/2 -translate-x-1/2">
-          <div>Persons: {formattedPersons}</div>
-          <div>Daily Turnover: {formattedDailyTurnover}</div>
-        </div>
-      )}
+      <div
+        className={`absolute top-full mt-2 text-white text-lg font-bold text-center w-max left-1/2 -translate-x-1/2 transition-opacity duration-500 ease-in-out ${
+          isSelected ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        <div>Persons: {formattedPersons}</div>
+        <div>Daily Turnover: {formattedDailyTurnover}</div>
+      </div>
     </div>
   );
 };
