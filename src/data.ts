@@ -64,8 +64,8 @@ export const circlesData: CircleData[] = [
   {
     id: 14,
     name: "USA",
-    numberOfPersons: 300000000,
-    yearlyTurnOver: 30000000000000,
+    numberOfPersons: 340000000,
+    yearlyTurnOver: 30600000000000,
   },
   {
     id: 15,
@@ -82,8 +82,8 @@ export const circlesData: CircleData[] = [
   {
     id: 17,
     name: "Africa",
-    numberOfPersons: 1000000000,
-    yearlyTurnOver: 3000000000000,
+    numberOfPersons: 1390000000,
+    yearlyTurnOver: 2820000000000,
   },
   {
     id: 18,
