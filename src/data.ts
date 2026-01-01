@@ -1,100 +1,190 @@
 // --- Types ---
+export type Source = {
+  name: string;
+  url: string;
+};
+
 export type CircleData = {
   id: number;
   name: string;
   numberOfPersons: number;
   yearlyTurnOver: number; // Explicitly declared
+  predicate: "live in" | "work at" | null;
+  imageFileName: string | null;
+  sources: Source[];
 };
 
 // --- Constants ---
 export const circlesData: CircleData[] = [
-  { id: 1, name: "You", numberOfPersons: 1, yearlyTurnOver: 40000 },
-  { id: 2, name: "Your Family", numberOfPersons: 4, yearlyTurnOver: 90000 },
-  { id: 3, name: "Your Friends", numberOfPersons: 30, yearlyTurnOver: 1000000 },
-  { id: 4, name: "A Village", numberOfPersons: 200, yearlyTurnOver: 10000000 },
-  { id: 5, name: "Town", numberOfPersons: 10000, yearlyTurnOver: 400000000 },
+  {
+    id: 1,
+    name: "You",
+    numberOfPersons: 1,
+    yearlyTurnOver: 40000,
+    predicate: null,
+    imageFileName: null,
+    sources: [],
+  },
+  {
+    id: 2,
+    name: "Your Family",
+    numberOfPersons: 4,
+    yearlyTurnOver: 90000,
+    predicate: "live in",
+    imageFileName: null,
+    sources: [],
+  },
+  {
+    id: 3,
+    name: "Your Friends",
+    numberOfPersons: 30,
+    yearlyTurnOver: 1000000,
+    predicate: "live in",
+    imageFileName: null,
+    sources: [],
+  },
+  {
+    id: 4,
+    name: "A Village",
+    numberOfPersons: 200,
+    yearlyTurnOver: 10000000,
+    predicate: "live in",
+    imageFileName: null,
+    sources: [],
+  },
+  {
+    id: 5,
+    name: "Town",
+    numberOfPersons: 10000,
+    yearlyTurnOver: 400000000,
+    predicate: "live in",
+    imageFileName: null,
+    sources: [],
+  },
   {
     id: 6,
     name: "City",
     numberOfPersons: 1000000,
     yearlyTurnOver: 40000000000,
+    predicate: "live in",
+    imageFileName: null,
+    sources: [],
   },
   {
     id: 7,
     name: "Walmart",
     numberOfPersons: 2100000,
     yearlyTurnOver: 681000000000,
+    predicate: "work at",
+    imageFileName: null,
+    sources: [],
   },
   {
     id: 8,
     name: "Germany",
     numberOfPersons: 83000000,
     yearlyTurnOver: 5000000000000,
+    predicate: "live in",
+    imageFileName: null,
+    sources: [],
   },
   {
     id: 9,
     name: "Bosch",
     numberOfPersons: 418000,
     yearlyTurnOver: 90000000000,
+    predicate: "work at",
+    imageFileName: null,
+    sources: [],
   },
   {
     id: 10,
     name: "China",
     numberOfPersons: 1400000000,
     yearlyTurnOver: 19000000000000,
+    predicate: "live in",
+    imageFileName: null,
+    sources: [],
   },
   {
     id: 11,
     name: "India",
     numberOfPersons: 1430000000,
     yearlyTurnOver: 4200000000000,
+    predicate: "live in",
+    imageFileName: null,
+    sources: [],
   },
   {
     id: 12,
     name: "World",
     numberOfPersons: 8300000000,
     yearlyTurnOver: 117000000000000,
+    predicate: "live in",
+    imageFileName: null,
+    sources: [],
   },
   {
     id: 13,
     name: "Elon Musk",
     numberOfPersons: 1,
     yearlyTurnOver: 300000000000,
+    predicate: "live in",
+    imageFileName: null,
+    sources: [],
   },
   {
     id: 14,
     name: "USA",
     numberOfPersons: 340000000,
     yearlyTurnOver: 30600000000000,
+    predicate: "live in",
+    imageFileName: null,
+    sources: [],
   },
   {
     id: 15,
     name: "Amazon",
     numberOfPersons: 1556000,
     yearlyTurnOver: 638000000000,
+    predicate: "work at",
+    imageFileName: null,
+    sources: [],
   },
   {
     id: 16,
     name: "State Grid Corporation of China",
     numberOfPersons: 1361000,
     yearlyTurnOver: 546000000000,
+    predicate: "work at",
+    imageFileName: null,
+    sources: [],
   },
   {
     id: 17,
     name: "Africa",
     numberOfPersons: 1390000000,
     yearlyTurnOver: 2820000000000,
+    predicate: "live in",
+    imageFileName: null,
+    sources: [],
   },
   {
     id: 18,
     name: "Stuttgart",
     numberOfPersons: 612000,
     yearlyTurnOver: 59000000000,
+    predicate: "live in",
+    imageFileName: null,
+    sources: [],
   },
   {
     id: 19,
     name: "OpenAI",
     numberOfPersons: 3000,
     yearlyTurnOver: 3700000000,
+    predicate: "work at",
+    imageFileName: null,
+    sources: [],
   },
 ];
