@@ -85,7 +85,7 @@ export const circlesData: CircleData[] = [
     numberOfPersons: 83000000,
     yearlyTurnOver: 5000000000000,
     predicate: "living in",
-    imageFileName: null,
+    imageFileName: "images/germany.png",
     sources: [],
   },
   {
