@@ -92,11 +92,8 @@ function App() {
   const overlayPadding = 4; // rem
   const overlayWidth = targetDiameter + overlayPadding;
   const overlayStyle: React.CSSProperties = {
-    top: "1rem",
-    bottom: "5vh",
     left: `calc(50% - ${overlayWidth / 2}rem)`,
     width: `${overlayWidth}rem`,
-    zIndex: 0,
   };
 
   return (
@@ -113,7 +110,7 @@ function App() {
 
       {selectedId && (
         <div
-          className="absolute rounded-lg bg-gray-700 bg-opacity-30"
+          className="absolute rounded-lg bg-gray-700 bg-opacity-30 top-4 bottom-[5vh] z-0"
           style={overlayStyle}
         ></div>
       )}
