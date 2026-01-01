@@ -52,8 +52,9 @@ interface CircleProps {
 }
 
 const Circle: React.FC<CircleProps> = ({ circle, isSelected }) => {
-  const { name, numberOfPersons, yearlyTurnOver, predicate, imageFileName } = circle;
-  const bgColor = isSelected ? "bg-yellow-400" : "bg-gray-500";
+  const { name, numberOfPersons, yearlyTurnOver, predicate, imageFileName } =
+    circle;
+  const bgColor = isSelected ? "bg-yellow-400" : "bg-gray-400";
 
   // Calculate daily turnover and format numbers here
   const dailyTurnover = yearlyTurnOver / 365;
@@ -67,7 +68,7 @@ const Circle: React.FC<CircleProps> = ({ circle, isSelected }) => {
     <div className="relative w-full h-full">
       {/* Top text container */}
       {(isSelected && predicate) || imageFileName ? (
-        <div className="absolute bottom-full mb-2 text-white text-lg font-bold text-center w-max left-1/2 -translate-x-1/2">
+        <div className="absolute bottom-full mb-2 text-primary text-lg font-bold text-center w-max left-1/2 -translate-x-1/2">
           {isSelected && predicate && (
             <div className="mb-1">{predicate}</div> // Added margin-bottom
           )}
@@ -79,7 +80,7 @@ const Circle: React.FC<CircleProps> = ({ circle, isSelected }) => {
 
       {/* The actual circle content */}
       <div
-        className={`${bgColor} rounded-full flex justify-center items-center text-white font-bold p-2 text-center w-full h-full transition-colors duration-500 ease-in-out relative overflow-hidden`}
+        className={`${bgColor} rounded-full flex justify-center items-center text-primary font-bold p-2 text-center w-full h-full transition-colors duration-500 ease-in-out relative overflow-hidden`}
       >
         {imageFileName ? (
           <img
@@ -101,7 +102,7 @@ const Circle: React.FC<CircleProps> = ({ circle, isSelected }) => {
 
       {/* The text positioned below the circle (only for selected) */}
       <div
-        className={`absolute top-full mt-2 text-white text-lg font-bold text-center w-max left-1/2 -translate-x-1/2 transition-opacity duration-500 ease-in-out ${
+        className={`absolute top-full mt-2 text-primary text-lg font-bold text-center w-max left-1/2 -translate-x-1/2 transition-opacity duration-500 ease-in-out ${
           isSelected ? "opacity-100" : "opacity-0"
         }`}
       >

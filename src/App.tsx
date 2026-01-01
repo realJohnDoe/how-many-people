@@ -91,7 +91,7 @@ function App() {
 
   return (
     <>
-      <div className="absolute top-8 left-1/2 text-white -translate-x-1/2 text-3xl font-bold z-10">
+      <div className="absolute top-8 left-1/2 text-primary -translate-x-1/2 text-3xl font-bold z-10">
         How many people are...
       </div>
       <Dropdown
@@ -102,7 +102,7 @@ function App() {
       />
 
       {selectedId && (
-        <div className="absolute rounded-lg bg-gray-700 bg-opacity-30 top-4 bottom-4 z-0 w-96 left-1/2 -translate-x-1/2"></div>
+        <div className="absolute rounded-lg bg-gray-200 top-4 bottom-4 z-0 w-96 left-1/2 -translate-x-1/2"></div>
       )}
 
       <div className="relative w-screen h-screen">
