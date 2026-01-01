@@ -193,7 +193,7 @@ export const circlesData: CircleData[] = [
     predicate: "living in",
     numberOfPersons: 21240000,
     yearlyTurnOver: 13176000000,
-    imageFileName: null,
+    imageFileName: "images/malawi.png",
     sources: [{
       name: "Wikipedia",
       url: "https://en.wikipedia.org/wiki/Malawi"

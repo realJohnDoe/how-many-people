@@ -65,37 +65,38 @@ const Circle: React.FC<CircleProps> = ({ circle, isSelected }) => {
 
   return (
     <div className="relative w-full h-full">
-      {/* Predicate above the circle */}
-      {isSelected && predicate && (
-        <div
-          className={`absolute bottom-full mb-2 text-white text-lg font-bold text-center w-max left-1/2 -translate-x-1/2 transition-opacity duration-500 ease-in-out ${
-            isSelected ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          {predicate}
+      {/* Top text container */}
+      {(isSelected && predicate) || imageFileName ? (
+        <div className="absolute bottom-full mb-2 text-white text-lg font-bold text-center w-max left-1/2 -translate-x-1/2">
+          {isSelected && predicate && (
+            <div className="mb-1">{predicate}</div> // Added margin-bottom
+          )}
+          {imageFileName && ( // Always show name if image, regardless of selection
+            <div>{name}</div>
+          )}
         </div>
-      )}
+      ) : null}
 
       {/* The actual circle content */}
       <div
         className={`${bgColor} rounded-full flex justify-center items-center text-white font-bold p-2 text-center w-full h-full transition-colors duration-500 ease-in-out relative overflow-hidden`}
       >
-        {imageFileName && (
+        {imageFileName ? (
           <img
             src={`/${imageFileName}`}
             alt={name}
             className="absolute inset-0 w-full h-full object-cover rounded-full z-0"
           />
+        ) : (
+          <span
+            style={{
+              fontSize: `1.5rem`,
+              lineHeight: "1",
+            }}
+          >
+            {name}
+          </span>
         )}
-        <span
-          className="relative z-10"
-          style={{
-            fontSize: `1.5rem`,
-            lineHeight: "1",
-          }}
-        >
-          {name}
-        </span>
       </div>
 
       {/* The text positioned below the circle (only for selected) */}
