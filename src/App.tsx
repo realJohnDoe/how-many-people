@@ -110,7 +110,7 @@ function App() {
 
       {selectedId && (
         <div
-          className="absolute rounded-lg bg-gray-700 bg-opacity-30 top-4 bottom-[5vh] z-0"
+          className="absolute rounded-lg bg-gray-700 bg-opacity-30 top-4 bottom-4 z-0"
           style={overlayStyle}
         ></div>
       )}
