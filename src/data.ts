@@ -129,7 +129,7 @@ export const circlesData: CircleData[] = [
     name: "Elon Musk",
     numberOfPersons: 1,
     yearlyTurnOver: 300000000000,
-    predicate: "live in",
+    predicate: null,
     imageFileName: null,
     sources: [],
   },
