@@ -207,5 +207,14 @@ export const circlesData: CircleData[] = [
     yearlyTurnOver: 10000000,
     imageFileName: null,
     sources: []
+  },
+  {
+    id: 22,
+    name: "Ukraine",
+    predicate: "living in",
+    numberOfPersons: 32862000,
+    yearlyTurnOver: 205000000000,
+    imageFileName: null,
+    sources: []
   }
 ];
