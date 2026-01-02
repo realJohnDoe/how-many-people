@@ -1,4 +1,5 @@
 import React from "react";
+import icon from "./icon.svg";
 
 type DropdownProps = {
   orderBy: "numberOfPersons" | "yearlyTurnOver";
@@ -30,7 +31,7 @@ function Dropdown({
         onClick={() => setIsMenuOpen(!isMenuOpen)}
         className="bg-gray-700 text-white rounded p-2"
       >
-        <img src="/src/icon.svg" alt="order by" className="w-6 h-6" />
+        <img src={icon} alt="order by" className="w-6 h-6" />
       </button>
       {isMenuOpen && (
         <div
