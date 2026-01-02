@@ -4,4 +4,9 @@
   :root {
     --color-text-primary: #000000;
   }
+
+  html,
+  body {
+    overflow-x: hidden;
+  }
 }

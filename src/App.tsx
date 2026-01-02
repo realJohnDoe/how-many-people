@@ -173,29 +173,25 @@ function App() {
 
           const diameter = getDisplayDiameter(circle[orderBy]);
           const selectedCircleRadius = targetDiameter / 2;
-
-          const wrapperStyle = {
-            left: `calc(50% + ${posX * selectedCircleRadius}rem)`,
-            transition: "left 0.5s ease-in-out",
-          };
-
           const scaleFactor = diameter / targetDiameter;
-          const innerStyle = {
-            width: `${targetDiameter}rem`,
-            height: `${targetDiameter}rem`,
-            transform: `scale(${scaleFactor})`,
-            transition: "transform 0.5s ease-in-out",
-          };
-
           const isSelected = circle.id === selectedId;
 
           return (
             <div
               key={circle.id}
-              style={wrapperStyle}
-              className="absolute bottom-[20vh] -translate-x-1/2"
+              style={{
+                left: `calc(50% + ${posX * selectedCircleRadius}rem)`,
+              }}
+              className="absolute bottom-[20vh] -translate-x-1/2 transition-[left] duration-500 ease-in-out"
             >
-              <div style={innerStyle} className="origin-bottom">
+              <div
+                style={{
+                  width: `${targetDiameter}rem`,
+                  height: `${targetDiameter}rem`,
+                  transform: `scale(${scaleFactor})`,
+                }}
+                className="origin-bottom transition-transform duration-500 ease-in-out"
+              >
                 <Circle circle={circle} isSelected={isSelected} />
               </div>
             </div>
