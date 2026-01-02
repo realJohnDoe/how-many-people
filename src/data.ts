@@ -76,7 +76,7 @@ export const circlesData: CircleData[] = [
     numberOfPersons: 2100000,
     yearlyTurnOver: 681000000000,
     predicate: "working at",
-    imageFileName: null,
+    imageFileName: "images/walmart.png",
     sources: [],
   },
   {
@@ -94,7 +94,7 @@ export const circlesData: CircleData[] = [
     numberOfPersons: 418000,
     yearlyTurnOver: 90000000000,
     predicate: "working at",
-    imageFileName: null,
+    imageFileName: "images/bosch.png",
     sources: [],
   },
   {
@@ -121,7 +121,7 @@ export const circlesData: CircleData[] = [
     numberOfPersons: 8300000000,
     yearlyTurnOver: 117000000000000,
     predicate: "living in the",
-    imageFileName: null,
+    imageFileName: "images/world.png",
     sources: [],
   },
   {
@@ -148,7 +148,7 @@ export const circlesData: CircleData[] = [
     numberOfPersons: 1556000,
     yearlyTurnOver: 638000000000,
     predicate: "working at",
-    imageFileName: null,
+    imageFileName: "images/amazon.png",
     sources: [],
   },
   {
@@ -157,7 +157,7 @@ export const circlesData: CircleData[] = [
     numberOfPersons: 1361000,
     yearlyTurnOver: 546000000000,
     predicate: "working at the",
-    imageFileName: null,
+    imageFileName: "images/state-grid.png",
     sources: [],
   },
   {
@@ -166,7 +166,7 @@ export const circlesData: CircleData[] = [
     numberOfPersons: 1390000000,
     yearlyTurnOver: 2820000000000,
     predicate: "living in",
-    imageFileName: null,
+    imageFileName: "images/africa.png",
     sources: [],
   },
   {
@@ -231,6 +231,18 @@ export const circlesData: CircleData[] = [
     sources: [{
       name: "Wikipedia",
       url: "https://en.wikipedia.org/wiki/European_Union"
+    }]
+  },
+  {
+    id: 24,
+    name: "The Lego Group",
+    predicate: "working at the",
+    numberOfPersons: 31282,
+    yearlyTurnOver: 11670000000,
+    imageFileName: null,
+    sources: [{
+      name: "Wikipedia",
+      url: "https://en.wikipedia.org/wiki/The_Lego_Group"
     }]
   }
 ];
