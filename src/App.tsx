@@ -182,7 +182,7 @@ function App() {
               style={{
                 left: `calc(50% + ${posX * selectedCircleRadius}rem)`,
               }}
-              className="absolute bottom-[20vh] -translate-x-1/2 transition-[left] duration-500 ease-in-out"
+              className="absolute -translate-x-1/2 transition-[left] duration-500 ease-in-out bottom-[calc(50%-10rem)]"
             >
               <div
                 style={{
