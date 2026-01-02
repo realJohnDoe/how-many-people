@@ -45,18 +45,6 @@ function Dropdown({
           <div className="font-bold mb-2">Circle Size by...</div>
           <div
             onClick={() => {
-              setOrderBy("numberOfPersons");
-              setIsMenuOpen(false);
-            }}
-            onMouseEnter={() => setHoveredOption("numberOfPersons")}
-            className={`cursor-pointer p-1 ${getOptionClassName(
-              "numberOfPersons"
-            )}`}
-          >
-            Number of Persons
-          </div>
-          <div
-            onClick={() => {
               setOrderBy("yearlyTurnOver");
               setIsMenuOpen(false);
             }}
@@ -66,6 +54,18 @@ function Dropdown({
             )}`}
           >
             Yearly Turnover
+          </div>
+          <div
+            onClick={() => {
+              setOrderBy("numberOfPersons");
+              setIsMenuOpen(false);
+            }}
+            onMouseEnter={() => setHoveredOption("numberOfPersons")}
+            className={`cursor-pointer p-1 ${getOptionClassName(
+              "numberOfPersons"
+            )}`}
+          >
+            Number of Persons
           </div>
           <div
             onClick={() => {
