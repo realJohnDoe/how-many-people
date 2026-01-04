@@ -200,15 +200,6 @@ export const circlesData: CircleData[] = [
     }]
   },
   {
-    id: 21,
-    name: "A typical Super Market",
-    predicate: "working at",
-    numberOfPersons: 20,
-    yearlyTurnOver: 10000000,
-    imageFileName: "images/super-market.png",
-    sources: []
-  },
-  {
     id: 22,
     name: "Ukraine",
     predicate: "living in",
@@ -244,5 +235,18 @@ export const circlesData: CircleData[] = [
       name: "Wikipedia",
       url: "https://en.wikipedia.org/wiki/The_Lego_Group"
     }]
+  },
+  {
+    id: 25,
+    name: "an Average Aldi Store",
+    predicate: "working at",
+    numberOfPersons: 22,
+    yearlyTurnOver: 8880000,
+    imageFileName: "images/super-market.png",
+    sources: [{
+      name: "Wikipedia",
+      url: "https://en.wikipedia.org/wiki/Aldi"
+    }]
+
   }
 ];
