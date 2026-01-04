@@ -22,7 +22,7 @@ export const circlesData: CircleData[] = [
     numberOfPersons: 1,
     yearlyTurnOver: 46800,
     predicate: null,
-    imageFileName: "images/you.png",
+    imageFileName: "images/you.webp",
     sources: [],
   },
   {
@@ -31,7 +31,7 @@ export const circlesData: CircleData[] = [
     numberOfPersons: 4,
     yearlyTurnOver: 93600,
     predicate: "living in",
-    imageFileName: "images/family.png",
+    imageFileName: "images/family.webp",
     sources: [],
   },
   {
@@ -40,7 +40,7 @@ export const circlesData: CircleData[] = [
     numberOfPersons: 30,
     yearlyTurnOver: 1400000,
     predicate: null,
-    imageFileName: "images/friends.png",
+    imageFileName: "images/friends.webp",
     sources: [],
   },
   // {
@@ -76,7 +76,7 @@ export const circlesData: CircleData[] = [
     numberOfPersons: 195,
     yearlyTurnOver: 63200000,
     predicate: "working at",
-    imageFileName: "images/walmart.png",
+    imageFileName: "images/walmart.webp",
     sources: [{
       name: "Wikipedia",
       url: "https://en.wikipedia.org/wiki/Walmart"
@@ -88,7 +88,7 @@ export const circlesData: CircleData[] = [
     numberOfPersons: 83000000,
     yearlyTurnOver: 5000000000000,
     predicate: "living in",
-    imageFileName: "images/germany.png",
+    imageFileName: "images/germany.webp",
     sources: [],
   },
   {
@@ -97,7 +97,7 @@ export const circlesData: CircleData[] = [
     numberOfPersons: 418000,
     yearlyTurnOver: 90000000000,
     predicate: "working at",
-    imageFileName: "images/bosch.png",
+    imageFileName: "images/bosch.webp",
     sources: [],
   },
   {
@@ -106,7 +106,7 @@ export const circlesData: CircleData[] = [
     numberOfPersons: 1400000000,
     yearlyTurnOver: 19000000000000,
     predicate: "living in",
-    imageFileName: "images/china.png",
+    imageFileName: "images/china.webp",
     sources: [],
   },
   {
@@ -115,7 +115,7 @@ export const circlesData: CircleData[] = [
     numberOfPersons: 1430000000,
     yearlyTurnOver: 4200000000000,
     predicate: "living in",
-    imageFileName: "images/india.png",
+    imageFileName: "images/india.webp",
     sources: [],
   },
   {
@@ -124,7 +124,7 @@ export const circlesData: CircleData[] = [
     numberOfPersons: 8300000000,
     yearlyTurnOver: 117000000000000,
     predicate: "living in the",
-    imageFileName: "images/world.png",
+    imageFileName: "images/world.webp",
     sources: [],
   },
   {
@@ -133,7 +133,7 @@ export const circlesData: CircleData[] = [
     numberOfPersons: 1,
     yearlyTurnOver: 300000000000,
     predicate: null,
-    imageFileName: "images/elon.png",
+    imageFileName: "images/elon.webp",
     sources: [],
   },
   {
@@ -142,7 +142,7 @@ export const circlesData: CircleData[] = [
     numberOfPersons: 340000000,
     yearlyTurnOver: 30600000000000,
     predicate: "living in the",
-    imageFileName: "images/usa.png",
+    imageFileName: "images/usa.webp",
     sources: [],
   },
   {
@@ -151,7 +151,7 @@ export const circlesData: CircleData[] = [
     numberOfPersons: 1556000,
     yearlyTurnOver: 638000000000,
     predicate: "working at",
-    imageFileName: "images/amazon.png",
+    imageFileName: "images/amazon.webp",
     sources: [],
   },
   {
@@ -160,7 +160,7 @@ export const circlesData: CircleData[] = [
     numberOfPersons: 1361000,
     yearlyTurnOver: 546000000000,
     predicate: "working at the",
-    imageFileName: "images/state-grid.png",
+    imageFileName: "images/state-grid.webp",
     sources: [],
   },
   {
@@ -169,7 +169,7 @@ export const circlesData: CircleData[] = [
     numberOfPersons: 1390000000,
     yearlyTurnOver: 2820000000000,
     predicate: "living in",
-    imageFileName: "images/africa.png",
+    imageFileName: "images/africa.webp",
     sources: [],
   },
   {
@@ -178,7 +178,7 @@ export const circlesData: CircleData[] = [
     numberOfPersons: 612000,
     yearlyTurnOver: 59000000000,
     predicate: "living in",
-    imageFileName: "images/stuttgart.png",
+    imageFileName: "images/stuttgart.webp",
     sources: [],
   },
   {
@@ -187,7 +187,7 @@ export const circlesData: CircleData[] = [
     numberOfPersons: 3000,
     yearlyTurnOver: 3700000000,
     predicate: "working at",
-    imageFileName: "images/open-ai.png",
+    imageFileName: "images/open-ai.webp",
     sources: [],
   },
   {
@@ -196,7 +196,7 @@ export const circlesData: CircleData[] = [
     predicate: "living in",
     numberOfPersons: 21240000,
     yearlyTurnOver: 13176000000,
-    imageFileName: "images/malawi.png",
+    imageFileName: "images/malawi.webp",
     sources: [{
       name: "Wikipedia",
       url: "https://en.wikipedia.org/wiki/Malawi"
@@ -208,7 +208,7 @@ export const circlesData: CircleData[] = [
     predicate: "living in",
     numberOfPersons: 32862000,
     yearlyTurnOver: 205000000000,
-    imageFileName: "images/ukraine.png",
+    imageFileName: "images/ukraine.webp",
     sources: [{
       name: "Wikipedia",
       url: "https://en.wikipedia.org/wiki/Ukraine"
@@ -221,7 +221,7 @@ export const circlesData: CircleData[] = [
     predicate: "living in the",
     numberOfPersons: 450000000,
     yearlyTurnOver: 21000000000000,
-    imageFileName: "images/eu.png",
+    imageFileName: "images/eu.webp",
     sources: [{
       name: "Wikipedia",
       url: "https://en.wikipedia.org/wiki/European_Union"
@@ -233,7 +233,7 @@ export const circlesData: CircleData[] = [
     predicate: "working at the",
     numberOfPersons: 31282,
     yearlyTurnOver: 11670000000,
-    imageFileName: "images/lego.png",
+    imageFileName: "images/lego.webp",
     sources: [{
       name: "Wikipedia",
       url: "https://en.wikipedia.org/wiki/The_Lego_Group"
@@ -245,7 +245,7 @@ export const circlesData: CircleData[] = [
     predicate: "working at",
     numberOfPersons: 22,
     yearlyTurnOver: 8880000,
-    imageFileName: "images/aldi.png",
+    imageFileName: "images/aldi.webp",
     sources: [{
       name: "Wikipedia",
       url: "https://en.wikipedia.org/wiki/Aldi"
@@ -257,7 +257,7 @@ export const circlesData: CircleData[] = [
     predicate: "working at",
     numberOfPersons: 460,
     yearlyTurnOver: 92300000,
-    imageFileName: "images/ikea.png",
+    imageFileName: "images/ikea.webp",
     sources: [{
       name: "Wikipedia",
       url: "https://en.wikipedia.org/wiki/IKEA"
