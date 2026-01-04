@@ -54,7 +54,7 @@ function Dropdown({
       </div>
       {isMenuOpen && (
         <div
-          className="absolute bottom-full left-1/2 -translate-x-1/2 bg-gray-700 text-white rounded p-2 w-48 mb-2"
+          className="absolute bottom-full left-1/2 -translate-x-1/2 bg-gray-700 text-white rounded p-2 w-48 mb-2 z-20"
           onMouseLeave={() => setHoveredOption(null)}
         >
           <div
@@ -67,7 +67,7 @@ function Dropdown({
               "yearlyTurnOver"
             )}`}
           >
-            Yearly Turnover
+            {getOrderByText("yearlyTurnOver")}
           </div>
           <div
             onClick={() => {
@@ -79,7 +79,7 @@ function Dropdown({
               "numberOfPersons"
             )}`}
           >
-            Number of Persons
+            {getOrderByText("numberOfPersons")}
           </div>
           <div
             onClick={() => {
@@ -91,7 +91,7 @@ function Dropdown({
               "turnoverPerPerson"
             )}`}
           >
-            Turnover per Person
+            {getOrderByText("turnoverPerPerson")}
           </div>
         </div>
       )}
