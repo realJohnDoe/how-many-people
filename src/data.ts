@@ -72,12 +72,15 @@ export const circlesData: CircleData[] = [
   // },
   {
     id: 7,
-    name: "Walmart",
-    numberOfPersons: 2100000,
-    yearlyTurnOver: 681000000000,
+    name: "an average Walmart store",
+    numberOfPersons: 195,
+    yearlyTurnOver: 63200000,
     predicate: "working at",
     imageFileName: "images/walmart.png",
-    sources: [],
+    sources: [{
+      name: "Wikipedia",
+      url: "https://en.wikipedia.org/wiki/Walmart"
+    }],
   },
   {
     id: 8,
