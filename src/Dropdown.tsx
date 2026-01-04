@@ -1,5 +1,4 @@
 import React from "react";
-import icon from "./icon.svg";
 
 type DropdownProps = {
   orderBy: "numberOfPersons" | "yearlyTurnOver" | "turnoverPerPerson";
@@ -29,20 +28,35 @@ function Dropdown({
     return orderBy === option ? "bg-gray-600" : "";
   };
 
+  const getOrderByText = (
+    option: "numberOfPersons" | "yearlyTurnOver" | "turnoverPerPerson"
+  ) => {
+    switch (option) {
+      case "numberOfPersons":
+        return "Number of Persons";
+      case "yearlyTurnOver":
+        return "Total Daily Turnover";
+      case "turnoverPerPerson":
+        return "Turnover per Person";
+    }
+  };
+
   return (
     <div className="relative">
-      <button
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className="bg-gray-700 text-white rounded p-2"
-      >
-        <img src={icon} alt="order by" className="w-6 h-6" />
-      </button>
+      <div className="flex items-center">
+        <span className="text-primary mr-2">Visualizing</span>
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="bg-gray-700 text-white rounded p-2"
+        >
+          {getOrderByText(orderBy)}
+        </button>
+      </div>
       {isMenuOpen && (
         <div
-          className="absolute bottom-12 left-1/2 -translate-x-1/2 bg-gray-700 text-white rounded p-2 w-48"
+          className="absolute bottom-full left-1/2 -translate-x-1/2 bg-gray-700 text-white rounded p-2 w-48 mb-2"
           onMouseLeave={() => setHoveredOption(null)}
         >
-          <div className="font-bold mb-2">Circle Size by...</div>
           <div
             onClick={() => {
               setOrderBy("yearlyTurnOver");
