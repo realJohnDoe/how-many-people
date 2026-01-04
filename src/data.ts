@@ -238,7 +238,7 @@ export const circlesData: CircleData[] = [
   },
   {
     id: 25,
-    name: "an Average Aldi Store",
+    name: "an average Aldi store",
     predicate: "working at",
     numberOfPersons: 22,
     yearlyTurnOver: 8880000,
@@ -247,6 +247,20 @@ export const circlesData: CircleData[] = [
       name: "Wikipedia",
       url: "https://en.wikipedia.org/wiki/Aldi"
     }]
-
+  },
+  {
+    id: 26,
+    name: "an average Ikea store",
+    predicate: "working at",
+    numberOfPersons: 460,
+    yearlyTurnOver: 92300000,
+    imageFileName: "images/ikea.png",
+    sources: [{
+      name: "Wikipedia",
+      url: "https://en.wikipedia.org/wiki/IKEA"
+    }, {
+      name: "Ikea",
+      url: "https://www.ikea.com/global/en/our-business/how-we-work/year-in-review-fy25/"
+    }]
   }
 ];
