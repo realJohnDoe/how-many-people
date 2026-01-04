@@ -45,7 +45,7 @@ function formatToTwoSignificantDigits(
 }
 
 const InfoBox: React.FC<InfoBoxProps> = ({ circle, isSelected }) => {
-  const { numberOfPersons, yearlyTurnOver, sources } = circle;
+  const { numberOfPersons, yearlyTurnOver } = circle;
   const fadeClass = `transition-opacity duration-500 ease-in-out ${
     isSelected ? "opacity-100" : "opacity-0"
   }`;
@@ -58,30 +58,32 @@ const InfoBox: React.FC<InfoBoxProps> = ({ circle, isSelected }) => {
   const formattedPersons = formatToTwoSignificantDigits(numberOfPersons);
 
   return (
-    <div className={`text-primary text-lg font-bold text-center w-max ${fadeClass}`}>
+    <div
+      className={`text-primary text-lg font-bold text-center w-max ${fadeClass}`}
+    >
       <div className="text-2xl">{formattedPersons},</div>
       <div>with a daily turnover of</div>
       <div className="text-2xl">{formattedDailyTurnover}</div>
-      
-          {circle.sources && circle.sources.length > 0 && (
-            <div className="mt-4 text-sm text-gray-500">
-              [
-              {circle.sources.map((source, index) => (
-                <React.Fragment key={index}>
-                  <a
-                    href={source.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:underline" // Link color will be inherited from parent
-                  >
-                    {source.name}
-                  </a>
-                  {index < circle.sources.length - 1 && ", "}
-                </React.Fragment>
-              ))}
-              ]
-            </div>
-          )}
+
+      {circle.sources && circle.sources.length > 0 && (
+        <div className="mt-4 text-sm text-gray-500">
+          [
+          {circle.sources.map((source, index) => (
+            <React.Fragment key={index}>
+              <a
+                href={source.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline" // Link color will be inherited from parent
+              >
+                {source.name}
+              </a>
+              {index < circle.sources.length - 1 && ", "}
+            </React.Fragment>
+          ))}
+          ]
+        </div>
+      )}
     </div>
   );
 };
