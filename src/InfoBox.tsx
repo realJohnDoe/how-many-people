@@ -22,7 +22,7 @@ function formatToTwoSignificantDigits(
     minimumSignificantDigits: 1,
   };
 
-  let formatted = absNum.toLocaleString(undefined, options);
+  let formatted = absNum.toLocaleString("en-US", options);
   let scaledNum = absNum;
   let suffix = "";
 
@@ -40,7 +40,7 @@ function formatToTwoSignificantDigits(
     suffix = " thousand";
   }
 
-  formatted = scaledNum.toLocaleString(undefined, options);
+  formatted = scaledNum.toLocaleString("en-US", options);
   return prefix + sign + formatted + suffix;
 }
 
@@ -57,9 +57,9 @@ const InfoBox: React.FC<InfoBoxProps> = ({ circle, isSelected }) => {
   );
   const formattedPersons = formatToTwoSignificantDigits(numberOfPersons);
 
-  const turnoverPerPerson = yearlyTurnOver / numberOfPersons / 365;
-  const formattedTurnoverPerPerson = formatToTwoSignificantDigits(
-    turnoverPerPerson,
+  const dailyTurnoverPerPerson = yearlyTurnOver / numberOfPersons / 365; // Corrected to daily
+  const formattedDailyTurnoverPerPerson = formatToTwoSignificantDigits(
+    dailyTurnoverPerPerson,
     true
   );
 
@@ -67,13 +67,13 @@ const InfoBox: React.FC<InfoBoxProps> = ({ circle, isSelected }) => {
     <div
       className={`text-primary text-lg font-bold text-center w-max ${fadeClass}`}
     >
-      <div className="text-2xl">{formattedPersons}</div>
+      <div className="text-2xl">{formattedPersons},</div>
       <div>with a daily turnover of</div>
       <div className="text-2xl">
         {formattedDailyTurnover}
         {numberOfPersons > 1 && (
           <span className="text-lg ml-2">
-            ({formattedTurnoverPerPerson}/person)
+            ({formattedDailyTurnoverPerPerson}/person)
           </span>
         )}
       </div>
