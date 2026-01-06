@@ -204,7 +204,7 @@ function App() {
               <div
                 key={circle.id}
                 id={`circle-${circle.id}`}
-                className="snap-center relative"
+                className="snap-center relative w-[320px]"
                 style={{
                   transform: `translateX(${offsetX}px)`,
                   transition: "transform 0.5s ease-in-out", // Smooth transition for reordering
