@@ -90,7 +90,7 @@ function App() {
       />
 
       {/* --- Scrollable Content --- */}
-      <div className="flex flex-col min-h-dvh">
+      <div className="flex min-h-dvh">
         <div
           className="flex flex-row items-center flex-1 space-x-8 snap-x snap-mandatory"
           style={{
