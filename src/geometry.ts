@@ -56,6 +56,5 @@ export function getSortingOffsets(
     translateXOffsets.set(circle.id, deltaX);
   });
 
-  console.log(translateXOffsets)
   return translateXOffsets;
 }
