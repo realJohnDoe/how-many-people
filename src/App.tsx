@@ -55,11 +55,33 @@ function App() {
     }
   };
 
+  const isUserScrollingRef = React.useRef(false);
+  const scrollEndTimeout = React.useRef<number | null>(null);
+
+  React.useEffect(() => {
+    const circleElement = document.getElementById(`circle-${selectedId}`);
+    if (circleElement && !isUserScrollingRef.current) {
+      circleElement.scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+      });
+    }
+  }, [selectedId, sortedCircles]);
+
   React.useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
     if (!scrollContainer) return;
 
     const handleScroll = () => {
+      isUserScrollingRef.current = true; // User is scrolling
+
+      if (scrollEndTimeout.current) {
+        clearTimeout(scrollEndTimeout.current);
+      }
+      scrollEndTimeout.current = window.setTimeout(() => {
+        isUserScrollingRef.current = false; // User has stopped scrolling
+      }, 100); // Reset flag after a short delay
+
       const containerCenter =
         scrollContainer.scrollLeft + scrollContainer.offsetWidth / 2;
       let closestCircleId: number | null = null;
@@ -77,17 +99,21 @@ function App() {
         }
       });
 
-              if (closestCircleId !== null) {
-                setSelectedId((prevId) => {
-                  if (prevId === (closestCircleId as number)) return prevId;
-                  return closestCircleId as number;
-                });
-              }    };
+      if (closestCircleId !== null) {
+        setSelectedId((prevId) => {
+          if (prevId === (closestCircleId as number)) return prevId;
+          return closestCircleId as number;
+        });
+      }
+    };
 
     scrollContainer.addEventListener("scroll", handleScroll);
 
     return () => {
       scrollContainer.removeEventListener("scroll", handleScroll);
+      if (scrollEndTimeout.current) {
+        clearTimeout(scrollEndTimeout.current);
+      }
     };
   }, [sortedCircles]);
 
