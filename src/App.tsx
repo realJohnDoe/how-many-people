@@ -20,8 +20,7 @@ function calculatePositions(
   const calculateDeltaX = (d1: number, d2: number): number => {
     const r1 = d1 / 2;
     const r2 = d2 / 2;
-    const fixedDistance = 2; // Use passed in fixedDist
-    const hypotenuse = r1 + fixedDistance + r2;
+    const hypotenuse = r1 + r2 + Math.min(r1, r2) * 0.1;
     const vertical = Math.abs(r1 - r2);
     return Math.sqrt(hypotenuse ** 2 - vertical ** 2);
   };
@@ -193,17 +192,17 @@ function App() {
               }}
               className="absolute -translate-x-1/2 transition-[left] duration-500 ease-in-out h-full"
             >
-                            {/* Container for the visual circle */}
-                            <div 
-                              className="absolute bottom-[calc(50%-10rem)] left-1/2 -translate-x-1/2 origin-bottom transition-transform duration-500 ease-in-out"
-                              style={{
-                                  width: `${targetDiameter}rem`,
-                                  height: `${targetDiameter}rem`,
-                                  transform: `scale(${scaleFactor})`,
-                              }}
-                            >
-                              <Circle circle={circle} isSelected={isSelected} />
-                            </div>
+              {/* Container for the visual circle */}
+              <div
+                className="absolute bottom-[calc(50%-10rem)] left-1/2 -translate-x-1/2 origin-bottom transition-transform duration-500 ease-in-out"
+                style={{
+                  width: `${targetDiameter}rem`,
+                  height: `${targetDiameter}rem`,
+                  transform: `scale(${scaleFactor})`,
+                }}
+              >
+                <Circle circle={circle} isSelected={isSelected} />
+              </div>
               {/* Container for the InfoBox */}
               <div className="absolute top-[calc(50%+10rem)] left-1/2 -translate-x-1/2">
                 <InfoBox circle={circle} isSelected={isSelected} />
