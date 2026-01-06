@@ -56,60 +56,39 @@ function App() {
   };
 
   React.useEffect(() => {
-    const circleElement = document.getElementById(`circle-${selectedId}`);
-    if (circleElement) {
-      circleElement.scrollIntoView({
-        behavior: "smooth",
-        inline: "center",
-      });
-    }
-  }, [selectedId, sortedCircles]);
-
-  const scrollTimeout = React.useRef<number | null>(null);
-
-  React.useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
     if (!scrollContainer) return;
 
     const handleScroll = () => {
-      if (scrollTimeout.current) {
-        clearTimeout(scrollTimeout.current);
-      }
+      const containerCenter =
+        scrollContainer.scrollLeft + scrollContainer.offsetWidth / 2;
+      let closestCircleId: number | null = null;
+      let minDistance = Infinity;
 
-      scrollTimeout.current = window.setTimeout(() => {
-        const containerCenter =
-          scrollContainer.scrollLeft + scrollContainer.offsetWidth / 2;
-        let closestCircleId: number | null = null;
-        let minDistance = Infinity;
+      const circles = scrollContainer.querySelectorAll('[id^="circle-"]');
+      circles.forEach((circleElement) => {
+        const circle = circleElement as HTMLElement;
+        const circleCenter = circle.offsetLeft + circle.offsetWidth / 2;
+        const distance = Math.abs(containerCenter - circleCenter);
 
-        const circles = scrollContainer.querySelectorAll('[id^="circle-"]');
-        circles.forEach((circleElement) => {
-          const circle = circleElement as HTMLElement;
-          const circleCenter = circle.offsetLeft + circle.offsetWidth / 2;
-          const distance = Math.abs(containerCenter - circleCenter);
-
-          if (distance < minDistance) {
-            minDistance = distance;
-            closestCircleId = parseInt(circle.id.split("circle-")[1], 10);
-          }
-        });
-
-        if (closestCircleId !== null) {
-          setSelectedId((prevId) => {
-            if (prevId === closestCircleId) return prevId;
-            return closestCircleId;
-          });
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestCircleId = parseInt(circle.id.split("circle-")[1], 10);
         }
-      }, 150);
+      });
+
+      if (closestCircleId !== null) {
+        setSelectedId((prevId) => {
+          if (prevId === closestCircleId) return prevId;
+          return closestCircleId;
+        });
+      }
     };
 
     scrollContainer.addEventListener("scroll", handleScroll);
 
     return () => {
       scrollContainer.removeEventListener("scroll", handleScroll);
-      if (scrollTimeout.current) {
-        clearTimeout(scrollTimeout.current);
-      }
     };
   }, [sortedCircles]);
 
