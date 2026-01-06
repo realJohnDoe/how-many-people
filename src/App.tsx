@@ -13,6 +13,8 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [paddingX, setPaddingX] = React.useState(0);
 
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
+
   const targetDiameter = 20; // rem
   const targetDiameterPx = targetDiameter * 16; // assuming 1rem = 16px
 
@@ -45,6 +47,24 @@ function App() {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [selectedId]);
+
+  React.useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer) return;
+
+    const handleWheel = (event: WheelEvent) => {
+      event.preventDefault();
+      scrollContainer.scrollBy({
+        left: event.deltaY, // Keep the smoothing factor
+      });
+    };
+
+    scrollContainer.addEventListener("wheel", handleWheel);
+
+    return () => {
+      scrollContainer.removeEventListener("wheel", handleWheel);
+    };
+  }, []);
 
   React.useEffect(() => {
     const calculatePadding = () => {
@@ -92,6 +112,7 @@ function App() {
       {/* --- Scrollable Content --- */}
       <div className="flex min-h-dvh">
         <div
+          ref={scrollContainerRef}
           className="flex flex-row items-center flex-1 space-x-8 snap-x snap-mandatory overflow-x-scroll"
           style={{
             paddingLeft: `${paddingX}px`,
