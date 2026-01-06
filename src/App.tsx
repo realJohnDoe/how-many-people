@@ -14,7 +14,7 @@ function App() {
   const [paddingX, setPaddingX] = React.useState(0);
 
   const targetDiameter = 20; // rem
-  const overlayWidthPx = 24 * 16; // w-96 in Tailwind is 24rem, assuming 1rem = 16px
+  const targetDiameterPx = targetDiameter * 16; // assuming 1rem = 16px
 
   const selectNextCircle = () => {
     const currentIndex = circlesData.findIndex((c) => c.id === selectedId);
@@ -48,7 +48,7 @@ function App() {
 
   React.useEffect(() => {
     const calculatePadding = () => {
-      const newPaddingX = (window.innerWidth - overlayWidthPx) / 2;
+      const newPaddingX = (window.innerWidth - targetDiameterPx) / 2;
       setPaddingX(Math.max(0, newPaddingX)); // Ensure padding is not negative
     };
 
@@ -58,7 +58,7 @@ function App() {
     return () => {
       window.removeEventListener("resize", calculatePadding); // Cleanup
     };
-  }, [overlayWidthPx]); // Recalculate if overlayWidthPx changes (though it's constant here)
+  }, [targetDiameterPx]);
 
   const [touchStart, setTouchStart] = React.useState(0);
 
@@ -92,7 +92,7 @@ function App() {
       {/* --- Scrollable Content --- */}
       <div className="flex flex-col min-h-dvh">
         <div
-          className="flex flex-row items-center flex-1 space-x-8"
+          className="flex flex-row items-center flex-1 space-x-8 snap-x snap-mandatory"
           style={{
             paddingLeft: `${paddingX}px`,
             paddingRight: `${paddingX}px`,
@@ -107,7 +107,7 @@ function App() {
             return (
               <div
                 key={circle.id}
-                className="relative flex flex-col items-center justify-center space-y-4 flex-shrink-0"
+                className="relative flex flex-col items-center justify-center space-y-4 shrink-0 snap-center"
               >
                 {/* Container for the visual circle */}
                 <div
