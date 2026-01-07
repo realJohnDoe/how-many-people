@@ -93,10 +93,11 @@ function App() {
       const circles = scrollContainer.querySelectorAll('[id^="circle-"]');
       circles.forEach((circleElement) => {
         const circle = circleElement as HTMLElement;
-        // const offsetX =
-        //   sortedCirclesWithOffsets.find((item) => item.circle.id === id)
-        //     ?.offsetX ?? 0;
-        const circleCenter = circle.offsetLeft + circle.offsetWidth / 2;
+        const circleId = parseInt(circle.id.split("circle-")[1], 10);
+        const offsetX =
+          sortedCirclesWithOffsets.find((item) => item.circle.id === circleId)
+            ?.offsetX ?? 0;
+        const circleCenter = circle.offsetLeft + offsetX + circle.offsetWidth / 2;
         const distance = Math.abs(containerCenter - circleCenter);
 
         if (distance < minDistance) {
