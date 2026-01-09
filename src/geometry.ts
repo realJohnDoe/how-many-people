@@ -53,11 +53,10 @@ export function getSortingOffsets(
     sortedIdToIndex.set(circle.id, index);
   });
 
-  const translateXOffsets = new Map<number, TransformationParams>();
-  circles.forEach((circle) => {
-    const oldIndex = originalIdToIndex.get(circle.id) as number; // Should always exist
-    const newIndex = sortedIdToIndex.get(circle.id) as number; // Should always exist
+  const values = new Map<number, number>();
+  let minValue = Infinity;
 
+  circles.forEach((circle) => {
     let value: number;
     switch (sortBy) {
       case "numberOfPersons":
@@ -70,10 +69,21 @@ export function getSortingOffsets(
         value = circle.numberOfPersons ? circle.yearlyTurnOver / circle.numberOfPersons : 0;
         break;
     }
+    values.set(circle.id, value);
+    if (value < minValue) {
+      minValue = value;
+    }
+  });
+
+  const translateXOffsets = new Map<number, TransformationParams>();
+  circles.forEach((circle) => {
+    const oldIndex = originalIdToIndex.get(circle.id) as number; // Should always exist
+    const newIndex = sortedIdToIndex.get(circle.id) as number; // Should always exist
+    const value = values.get(circle.id) as number;
 
     translateXOffsets.set(circle.id, {
       oldIndexOffset: -oldIndex,
-      scale: Math.sqrt(value),
+      scale: Math.sqrt(value / minValue),
       newIndexOffset: newIndex
     });
   });

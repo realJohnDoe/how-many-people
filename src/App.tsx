@@ -68,7 +68,9 @@ function App() {
         const circleId = parseInt(circle.id.split("circle-")[1], 10);
         const transformationParams = offsetsMap.get(circleId);
         const offsetX = transformationParams
-          ? (transformationParams.oldIndexOffset + transformationParams.newIndexOffset) * itemSpacingPx
+          ? (transformationParams.oldIndexOffset +
+              transformationParams.newIndexOffset) *
+            itemSpacingPx
           : 0;
         const circleCenter =
           circle.offsetLeft + offsetX + circle.offsetWidth / 2;
@@ -155,7 +157,7 @@ function App() {
             const transformationParams = offsetsMap.get(circle.id);
             const oldIndexOffset = transformationParams?.oldIndexOffset ?? 0;
             const newIndexOffset = transformationParams?.newIndexOffset ?? 0;
-            const scaleFactor = 1; // scaleFactor will be calculated by getVisualTransforms later
+            const scaleFactor = transformationParams?.scale ?? 1; // scaleFactor will be calculated by getVisualTransforms later
             const isSelected = circle.id === selectedId;
 
             return (
@@ -165,7 +167,11 @@ function App() {
                 className="snap-center relative flex flex-col items-center transition-transform duration-500 ease-in-out"
                 style={{
                   width: `${CIRCLE_DIAMETER_REM}rem`,
-                  transform: `translateX(${oldIndexOffset * itemSpacingPx}px) translateX(${newIndexOffset * itemSpacingPx}px)`,
+                  transform: `translateX(${
+                    oldIndexOffset * itemSpacingPx
+                  }px) scale(${Math.min(scaleFactor, 2)}) translateX(${
+                    newIndexOffset * itemSpacingPx
+                  }px)`,
                 }}
               >
                 {/* Container for the visual circle */}
@@ -174,7 +180,6 @@ function App() {
                   style={{
                     width: `${CIRCLE_DIAMETER_REM}rem`,
                     height: `${CIRCLE_DIAMETER_REM}rem`,
-                    transform: `scale(${scaleFactor})`,
                   }}
                 >
                   <Circle circle={circle} isSelected={isSelected} />
