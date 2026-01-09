@@ -5,6 +5,13 @@ export const TARGET_DIAMETER_REM = 20;
 export const REM_TO_PX = 16;
 export const TARGET_DIAMETER_PX = TARGET_DIAMETER_REM * REM_TO_PX;
 
+
+type TransformationParams = {
+  oldIndexOffset: number
+  scale: number
+  newIndexOffset: number
+}
+
 /**
  * Calculates the translateX offsets for each circle to animate them from their original
  * unsorted position to their new sorted position.
@@ -17,9 +24,8 @@ export const TARGET_DIAMETER_PX = TARGET_DIAMETER_REM * REM_TO_PX;
  */
 export function getSortingOffsets(
   circles: CircleData[],
-  circleDistanceInPx: number,
   sortBy: "numberOfPersons" | "yearlyTurnOver" | "turnoverPerPerson",
-): Map<number, number> { // Changed return type to Map<number, number>
+): Map<number, TransformationParams> { // Changed return type to Map<number, number>
   const sortedCircles = [...circles]; // Create a shallow copy to sort
 
   sortedCircles.sort((a, b) => {
@@ -47,13 +53,29 @@ export function getSortingOffsets(
     sortedIdToIndex.set(circle.id, index);
   });
 
-  const translateXOffsets = new Map<number, number>();
+  const translateXOffsets = new Map<number, TransformationParams>();
   circles.forEach((circle) => {
     const oldIndex = originalIdToIndex.get(circle.id) as number; // Should always exist
     const newIndex = sortedIdToIndex.get(circle.id) as number; // Should always exist
 
-    const deltaX = (newIndex * circleDistanceInPx) - (oldIndex * circleDistanceInPx);
-    translateXOffsets.set(circle.id, deltaX);
+    let value: number;
+    switch (sortBy) {
+      case "numberOfPersons":
+        value = circle.numberOfPersons;
+        break;
+      case "yearlyTurnOver":
+        value = circle.yearlyTurnOver;
+        break;
+      case "turnoverPerPerson":
+        value = circle.numberOfPersons ? circle.yearlyTurnOver / circle.numberOfPersons : 0;
+        break;
+    }
+
+    translateXOffsets.set(circle.id, {
+      oldIndexOffset: -oldIndex,
+      scale: Math.sqrt(value),
+      newIndexOffset: newIndex
+    });
   });
 
   return translateXOffsets;

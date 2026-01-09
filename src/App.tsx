@@ -32,12 +32,18 @@ function App() {
       return circlesData.map((circle) => ({ circle, offsetX: 0 }));
     }
 
-    const offsetsMap = getSortingOffsets(circlesData, itemSpacingPx, orderBy);
+    const offsetsMap = getSortingOffsets(circlesData, orderBy);
     // Convert the Map to an array of objects that include the original circle data and its offset
-    return circlesData.map((circle) => ({
-      circle,
-      offsetX: offsetsMap.get(circle.id) || 0, // Get the offset from the map
-    }));
+    return circlesData.map((circle) => {
+      const transformationParams = offsetsMap.get(circle.id);
+      const offsetX = transformationParams
+        ? (transformationParams.oldIndexOffset + transformationParams.newIndexOffset) * itemSpacingPx
+        : 0; // Default to 0 if no transformationParams
+      return {
+        circle,
+        offsetX,
+      };
+    });
   }, [orderBy, circlesData, itemSpacingPx]); // Depend on itemSpacingPx (now a const) and circlesData
 
   const isUserScrollingRef = React.useRef(false);
