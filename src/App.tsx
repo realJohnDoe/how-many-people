@@ -154,10 +154,12 @@ function App() {
           }}
         >
           {circlesData.map((circle) => {
+            const selectedParams = offsetsMap.get(selectedId);
             const transformationParams = offsetsMap.get(circle.id);
             const oldIndexOffset = transformationParams?.oldIndexOffset ?? 0;
             const newIndexOffset = transformationParams?.newIndexOffset ?? 0;
-            const scaleFactor = transformationParams?.scale ?? 1; // scaleFactor will be calculated by getVisualTransforms later
+            const scaleFactor =
+              (transformationParams?.scale ?? 1) / (selectedParams?.scale ?? 1); // scaleFactor will be calculated by getVisualTransforms later
             const isSelected = circle.id === selectedId;
 
             return (
