@@ -57,28 +57,43 @@ function App() {
         isUserScrollingRef.current = false; // User has stopped scrolling
       }, 100); // Reset flag after a short delay
 
+      const scrollContainerRect = scrollContainer.getBoundingClientRect();
       const containerCenter =
         scrollContainer.scrollLeft + scrollContainer.offsetWidth / 2;
       let closestCircleId: number | null = null;
       let minDistance = Infinity;
 
       const circles = scrollContainer.querySelectorAll('[id^="circle-"]');
-      circles.forEach((circleElement) => {
+      circles.forEach((circleElement, index) => {
         const circle = circleElement as HTMLElement;
         const circleId = parseInt(circle.id.split("circle-")[1], 10);
+        
         const transformationParams = offsetsMap.get(circleId);
-        const offsetX = transformationParams
-          ? (transformationParams.oldIndexOffset +
-              transformationParams.newIndexOffset) *
-            itemSpacingPx
-          : 0;
-        const circleCenter =
-          circle.offsetLeft + offsetX + circle.offsetWidth / 2;
+        const scaleFactor = transformationParams?.scale ?? 1;
+
+        const circleRect = circle.getBoundingClientRect();
+        const circleLeftInContainer = circleRect.left - scrollContainerRect.left;
+        const circleCenter = circleLeftInContainer + circleRect.width / 2 + scrollContainer.scrollLeft;
+
+        console.log(`Circle ${circleId}:`, {
+          offsetLeft: circle.offsetLeft,
+          scaleFactor,
+          circleCenter,
+        });
+
+        if (index > 0) {
+          const prevCircleElement = circles[index - 1] as HTMLElement;
+          const prevCircleRect = prevCircleElement.getBoundingClientRect();
+          const prevCircleLeftInContainer = prevCircleRect.left - scrollContainerRect.left;
+          const prevCircleCenter = prevCircleLeftInContainer + prevCircleRect.width / 2 + scrollContainer.scrollLeft;
+          console.log(`Distance between ${circles[index-1].id} and ${circle.id}: ${circleCenter - prevCircleCenter}`);
+        }
+
         const distance = Math.abs(containerCenter - circleCenter);
 
         if (distance < minDistance) {
           minDistance = distance;
-          closestCircleId = parseInt(circle.id.split("circle-")[1], 10);
+          closestCircleId = circleId;
         }
       });
 
