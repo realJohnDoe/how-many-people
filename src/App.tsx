@@ -200,7 +200,7 @@ function App() {
                     <div
                       className="transition-transform duration-500 ease-in-out origin-top"
                       style={{
-                        transform: `scale(${Math.min(scaleFactor, 2)})`,
+                        transform: `scale(${scaleFactor})`,
                         willChange: "transform",
                       }}
                     >
