@@ -6,17 +6,6 @@ import { getSortedCircles, getSortingOffsets } from "./geometry";
 import AppHeader from "./AppHeader"; // Import AppHeader
 import { ScrollSpace } from "./ScrollSpace";
 
-// --- Debounce Utility ---
-function debounce<F extends (...args: any[]) => any>(func: F, waitFor: number) {
-  let timeout: number;
-
-  return (...args: Parameters<F>): Promise<ReturnType<F>> =>
-    new Promise((resolve) => {
-      clearTimeout(timeout);
-      timeout = window.setTimeout(() => resolve(func(...args)), waitFor);
-    });
-}
-
 // --- Constants ---
 const REM_TO_PX = 16;
 const CIRCLE_DIAMETER_REM = 20;
@@ -29,7 +18,6 @@ function App() {
   const [orderBy, setOrderBy] = React.useState<
     "numberOfPersons" | "yearlyTurnOver" | "turnoverPerPerson"
   >("yearlyTurnOver");
-  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
   // Removed itemSpacingPx state and its useEffect for dynamic measurement
 
   // Use the new getSortingOffsets function with dynamically measured itemSpacingPx
@@ -44,69 +32,6 @@ function App() {
     const map = new Map(sorted.map((c, i) => [c.id, i]));
     return { sortedCircles: sorted, idToIndex: map };
   }, [orderBy]);
-
-  const isScrolling = React.useRef(false);
-
-  React.useEffect(() => {
-    const scrollContainer = scrollContainerRef.current;
-    if (!scrollContainer || isScrolling.current) return;
-
-    const targetIndex = idToIndex.get(selectedId);
-    if (targetIndex === undefined) return;
-
-    const targetScroll = targetIndex * itemSpacingPx;
-    scrollContainer.scrollTo({
-      left: targetScroll,
-      behavior: "smooth",
-    });
-  }, [selectedId, orderBy]);
-
-  React.useEffect(() => {
-    const scrollContainer = scrollContainerRef.current;
-    if (!scrollContainer) return;
-
-    const handleScroll = debounce(() => {
-      isScrolling.current = true;
-      const centeredIndex = Math.round(
-        scrollContainer.scrollLeft / itemSpacingPx
-      );
-      const newSelectedId = sortedCircles[centeredIndex]?.id;
-
-      if (newSelectedId && newSelectedId !== selectedId) {
-        setSelectedId(newSelectedId);
-      }
-
-      // Reset the flag after a short delay to re-enable programmatic scrolling
-      setTimeout(() => {
-        isScrolling.current = false;
-      }, 100);
-    }, 50); // Debounce scroll events
-
-    scrollContainer.addEventListener("scroll", handleScroll);
-
-    return () => {
-      scrollContainer.removeEventListener("scroll", handleScroll);
-    };
-  }, [sortedCircles, selectedId, itemSpacingPx]);
-
-  React.useEffect(() => {
-    const scrollContainer = scrollContainerRef.current;
-    if (!scrollContainer) return;
-
-    const handleWheel = (event: WheelEvent) => {
-      event.preventDefault();
-      scrollContainer.scrollBy({
-        left: event.deltaY * 0.5,
-        behavior: "smooth",
-      });
-    };
-
-    scrollContainer.addEventListener("wheel", handleWheel);
-
-    return () => {
-      scrollContainer.removeEventListener("wheel", handleWheel);
-    };
-  }, []);
 
   return (
     <>
