@@ -2,8 +2,22 @@ import React from "react";
 import { circlesData } from "./data";
 import Circle from "./Circle";
 import InfoBox from "./InfoBox";
-import { getSortingOffsets } from "./geometry";
+import { getSortedCircles, getSortingOffsets } from "./geometry";
 import Dropdown from "./Dropdown";
+
+// --- Debounce Utility ---
+function debounce<F extends (...args: any[]) => any>(
+  func: F,
+  waitFor: number,
+) {
+  let timeout: number;
+
+  return (...args: Parameters<F>): Promise<ReturnType<F>> =>
+    new Promise((resolve) => {
+      clearTimeout(timeout);
+      timeout = window.setTimeout(() => resolve(func(...args)), waitFor);
+    });
+}
 
 // --- Constants ---
 const REM_TO_PX = 16;
@@ -29,74 +43,55 @@ function App() {
     return getSortingOffsets(circlesData, orderBy);
   }, [orderBy]);
 
-  const isUserScrollingRef = React.useRef(false);
-  const scrollEndTimeout = React.useRef<number | null>(null);
+  const { sortedCircles, idToIndex } = React.useMemo(() => {
+    const sorted = getSortedCircles(circlesData, orderBy);
+    const map = new Map(sorted.map((c, i) => [c.id, i]));
+    return { sortedCircles: sorted, idToIndex: map };
+  }, [orderBy]);
+
+  const isScrolling = React.useRef(false);
 
   React.useEffect(() => {
-    const circleElement = document.getElementById(`circle-${selectedId}`);
-    if (circleElement && !isUserScrollingRef.current) {
-      circleElement.scrollIntoView({
-        behavior: "smooth",
-        inline: "center",
-      });
-    }
-  }, [selectedId, offsetsMap]); // Dependency updated
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer || isScrolling.current) return;
+
+    const targetIndex = idToIndex.get(selectedId);
+    if (targetIndex === undefined) return;
+
+    const targetScroll = targetIndex * itemSpacingPx;
+    scrollContainer.scrollTo({
+      left: targetScroll,
+      behavior: "smooth",
+    });
+  }, [selectedId, orderBy]);
 
   React.useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
     if (!scrollContainer) return;
 
-    const handleScroll = () => {
-      isUserScrollingRef.current = true; // User is scrolling
+    const handleScroll = debounce(() => {
+      isScrolling.current = true;
+      const centeredIndex = Math.round(
+        scrollContainer.scrollLeft / itemSpacingPx,
+      );
+      const newSelectedId = sortedCircles[centeredIndex]?.id;
 
-      if (scrollEndTimeout.current) {
-        clearTimeout(scrollEndTimeout.current);
+      if (newSelectedId && newSelectedId !== selectedId) {
+        setSelectedId(newSelectedId);
       }
-      scrollEndTimeout.current = window.setTimeout(() => {
-        isUserScrollingRef.current = false; // User has stopped scrolling
-      }, 100); // Reset flag after a short delay
 
-      const containerCenter =
-        scrollContainer.scrollLeft + scrollContainer.offsetWidth / 2;
-      let closestCircleId: number | null = null;
-      let minDistance = Infinity;
-
-      const circles = scrollContainer.querySelectorAll('[id^="circle-"]');
-      circles.forEach((circleElement) => {
-        const circle = circleElement as HTMLElement;
-        const circleId = parseInt(circle.id.split("circle-")[1], 10);
-        const transformationParams = offsetsMap.get(circleId);
-        const offsetX = transformationParams
-          ? (transformationParams.oldIndexOffset +
-              transformationParams.newIndexOffset) *
-            itemSpacingPx
-          : 0;
-        const circleCenter =
-          circle.offsetLeft + offsetX + circle.offsetWidth / 2;
-        const distance = Math.abs(containerCenter - circleCenter);
-
-        if (distance < minDistance) {
-          minDistance = distance;
-          closestCircleId = parseInt(circle.id.split("circle-")[1], 10);
-        }
-      });
-
-      if (closestCircleId !== null) {
-        if (closestCircleId !== selectedId) {
-          setSelectedId(closestCircleId);
-        }
-      }
-    };
+      // Reset the flag after a short delay to re-enable programmatic scrolling
+      setTimeout(() => {
+        isScrolling.current = false;
+      }, 100);
+    }, 50); // Debounce scroll events
 
     scrollContainer.addEventListener("scroll", handleScroll);
 
     return () => {
       scrollContainer.removeEventListener("scroll", handleScroll);
-      if (scrollEndTimeout.current) {
-        clearTimeout(scrollEndTimeout.current);
-      }
     };
-  }, [offsetsMap, itemSpacingPx]); // Dependency updated
+  }, [sortedCircles, selectedId, itemSpacingPx]);
 
   React.useEffect(() => {
     const scrollContainer = scrollContainerRef.current;

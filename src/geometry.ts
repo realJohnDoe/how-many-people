@@ -5,13 +5,12 @@ export const TARGET_DIAMETER_REM = 20;
 export const REM_TO_PX = 16;
 export const TARGET_DIAMETER_PX = TARGET_DIAMETER_REM * REM_TO_PX;
 
-
 type TransformationParams = {
-  oldIndexOffset: number
-  scale: number
-  scalingOffset: number
-  newIndexOffset: number
-}
+  oldIndexOffset: number;
+  scale: number;
+  scalingOffset: number;
+  newIndexOffset: number;
+};
 
 const calculateDeltaX = (d1: number, d2: number): number => {
   const r1 = d1 / 2;
@@ -19,8 +18,8 @@ const calculateDeltaX = (d1: number, d2: number): number => {
   const hypotenuse = r1 + r2 + Math.min(r1, r2) * 0.1;
   const vertical = Math.abs(r1 - r2);
   const deltaX = Math.sqrt(hypotenuse ** 2 - vertical ** 2);
-  console.log(r1, r2, deltaX)
-  return deltaX
+  console.log(r1, r2, deltaX);
+  return deltaX;
 };
 
 /**
@@ -36,7 +35,8 @@ const calculateDeltaX = (d1: number, d2: number): number => {
 export function getSortingOffsets(
   circles: CircleData[],
   sortBy: "numberOfPersons" | "yearlyTurnOver" | "turnoverPerPerson",
-): Map<number, TransformationParams> { // Changed return type to Map<number, number>
+): Map<number, TransformationParams> {
+  // Changed return type to Map<number, number>
   const sortedCircles = [...circles]; // Create a shallow copy to sort
 
   sortedCircles.sort((a, b) => {
@@ -46,8 +46,12 @@ export function getSortingOffsets(
       case "yearlyTurnOver":
         return a.yearlyTurnOver - b.yearlyTurnOver;
       case "turnoverPerPerson":
-        const turnoverA = a.numberOfPersons ? a.yearlyTurnOver / a.numberOfPersons : 0;
-        const turnoverB = b.numberOfPersons ? b.yearlyTurnOver / b.numberOfPersons : 0;
+        const turnoverA = a.numberOfPersons
+          ? a.yearlyTurnOver / a.numberOfPersons
+          : 0;
+        const turnoverB = b.numberOfPersons
+          ? b.yearlyTurnOver / b.numberOfPersons
+          : 0;
         return turnoverA - turnoverB;
       default:
         return 0; // Should not happen with type checking
@@ -77,7 +81,9 @@ export function getSortingOffsets(
         value = circle.yearlyTurnOver;
         break;
       case "turnoverPerPerson":
-        value = circle.numberOfPersons ? circle.yearlyTurnOver / circle.numberOfPersons : 0;
+        value = circle.numberOfPersons
+          ? circle.yearlyTurnOver / circle.numberOfPersons
+          : 0;
         break;
     }
     values.set(circle.id, value);
@@ -106,13 +112,41 @@ export function getSortingOffsets(
       oldIndexOffset: -oldIndex,
       scale: scale,
       scalingOffset: cumulativeScalingOffset,
-      newIndexOffset: newIndex
+      newIndexOffset: newIndex,
     });
 
     previousDiameter = scale;
   });
 
-  console.log(translateXOffsets)
+  console.log(translateXOffsets);
 
   return translateXOffsets;
+}
+
+export function getSortedCircles(
+  circles: CircleData[],
+  sortBy: "numberOfPersons" | "yearlyTurnOver" | "turnoverPerPerson",
+): CircleData[] {
+  const sortedCircles = [...circles]; // Create a shallow copy to sort
+
+  sortedCircles.sort((a, b) => {
+    switch (sortBy) {
+      case "numberOfPersons":
+        return a.numberOfPersons - b.numberOfPersons;
+      case "yearlyTurnOver":
+        return a.yearlyTurnOver - b.yearlyTurnOver;
+      case "turnoverPerPerson":
+        const turnoverA = a.numberOfPersons
+          ? a.yearlyTurnOver / a.numberOfPersons
+          : 0;
+        const turnoverB = b.numberOfPersons
+          ? b.yearlyTurnOver / b.numberOfPersons
+          : 0;
+        return turnoverA - turnoverB;
+      default:
+        return 0; // Should not happen with type checking
+    }
+  });
+
+  return sortedCircles;
 }
