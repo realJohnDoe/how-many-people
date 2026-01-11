@@ -205,18 +205,21 @@ function App() {
               const selectedParams = offsetsMap.get(selectedId);
               const transformationParams = offsetsMap.get(circle.id);
 
+              const scalingOffset =
+                ((transformationParams?.scalingOffset ?? 1) -
+                  (selectedParams?.scalingOffset ?? 1)) /
+                (selectedParams?.scale ?? 1);
               const offsetX =
                 ((transformationParams?.oldIndexOffset ?? 0) +
-                  (transformationParams?.newIndexOffset ?? 0)) *
+                  (selectedParams?.newIndexOffset ?? 0) +
+                  scalingOffset) *
                 itemSpacingPx;
 
               const scaleFactor =
                 (transformationParams?.scale ?? 1) /
                 (selectedParams?.scale ?? 1);
 
-              const scalingOffset =
-                (transformationParams?.scalingOffset ?? 1) -
-                (selectedParams?.scalingOffset ?? 1) * scaleFactor;
+              console.log(scalingOffset);
 
               const baseX = paddingX + index * itemSpacingPx;
 
@@ -228,7 +231,7 @@ function App() {
                     left: baseX,
                     transform: `
                 translate(0%, -50%)
-                translateX(${offsetX}px)
+                translateX(${offsetX + scalingOffset}px)
               `,
                     willChange: "transform",
                     pointerEvents: circle.id === selectedId ? "auto" : "none",
@@ -241,7 +244,7 @@ function App() {
                       style={{
                         width: `${CIRCLE_DIAMETER_REM}rem`,
                         height: `${CIRCLE_DIAMETER_REM}rem`,
-                        transform: `scale(${Math.min(scaleFactor, 5)})`,
+                        transform: `scale(${Math.min(scaleFactor, 5)}`,
                       }}
                     >
                       <Circle
