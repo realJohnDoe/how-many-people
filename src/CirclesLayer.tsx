@@ -52,7 +52,6 @@ const CirclesLayer: React.FC<CirclesLayerProps> = ({
                 translateX(${offsetX + scalingOffset}px)
               `,
               willChange: "transform",
-              pointerEvents: circle.id === selectedId ? "auto" : "none",
             }}
           >
             <div className="relative">
