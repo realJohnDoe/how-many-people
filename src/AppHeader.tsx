@@ -3,11 +3,9 @@ import Dropdown from "./Dropdown";
 
 interface AppHeaderProps {
   orderBy: "numberOfPersons" | "yearlyTurnOver" | "turnoverPerPerson";
-  setOrderBy: React.Dispatch<
-    React.SetStateAction<
-      "numberOfPersons" | "yearlyTurnOver" | "turnoverPerPerson"
-    >
-  >;
+  setOrderBy: (
+    value: "numberOfPersons" | "yearlyTurnOver" | "turnoverPerPerson"
+  ) => void;
 }
 
 const AppHeader: React.FC<AppHeaderProps> = ({ orderBy, setOrderBy }) => {

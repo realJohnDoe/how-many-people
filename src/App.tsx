@@ -14,6 +14,7 @@ const GAP_PX = 50; // Hardcoded gap between circles (e.g., equivalent to space-x
 // --- The React Component ---
 function App() {
   const [selectedId, setSelectedId] = React.useState(1);
+  const programmaticChangeRef = React.useRef(false);
   const [orderBy, setOrderBy] = React.useState<
     "numberOfPersons" | "yearlyTurnOver" | "turnoverPerPerson"
   >("yearlyTurnOver");
@@ -32,14 +33,27 @@ function App() {
     return { sortedCircles: sorted, idToIndex: map };
   }, [orderBy]);
 
+  const handleOrderChange = (value: typeof orderBy) => {
+    programmaticChangeRef.current = true;
+    setOrderBy(value);
+  };
+
+  React.useEffect(() => {
+    programmaticChangeRef.current = false;
+  }, [selectedId]);
+
   return (
     <>
-      <AppHeader orderBy={orderBy} setOrderBy={setOrderBy} />
+      <AppHeader orderBy={orderBy} setOrderBy={handleOrderChange} />
       <div className="relative h-dvh overflow-x-auto overflow-y-hidden">
         <ScrollSpace
           numItems={circlesData.length}
           itemDistance={itemSpacingPx}
-          scrollToIndex={idToIndex.get(selectedId)}
+          scrollToIndex={
+            programmaticChangeRef.current
+              ? idToIndex.get(selectedId)
+              : undefined
+          }
           onIndexChange={(index) => {
             const id = sortedCircles[index]?.id;
             if (id && id !== selectedId) {

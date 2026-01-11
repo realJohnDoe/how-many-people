@@ -18,6 +18,7 @@ export function ScrollSpace({
   const containerRef = React.useRef<HTMLDivElement>(null);
   const isProgrammaticScroll = React.useRef(false);
   const [paddingX, setPaddingX] = React.useState(0);
+  const lastIndexRef = React.useRef<number | null>(null);
 
   // --- measure container + compute centering padding ---
   React.useEffect(() => {
@@ -68,19 +69,22 @@ export function ScrollSpace({
     const handleScroll = () => {
       if (isProgrammaticScroll.current) return;
 
-      // debounce scroll end
+      const rawIndex = el.scrollLeft / itemDistance;
+      const index = Math.round(rawIndex);
+
+      // 🔹 Emit index change immediately when crossing intervals
+      if (lastIndexRef.current !== index) {
+        lastIndexRef.current = index;
+        onIndexChange?.(index);
+      }
+
+      // 🔹 Debounce snap-to-center only
       clearTimeout(scrollTimeout);
       scrollTimeout = window.setTimeout(() => {
-        if (!el) return;
-        const index = Math.round(el.scrollLeft / itemDistance);
-
-        // Smoothly scroll to center this item
         el.scrollTo({
           left: index * itemDistance,
           behavior: "smooth",
         });
-
-        onIndexChange?.(index);
       }, 100);
     };
 
