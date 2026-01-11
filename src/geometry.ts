@@ -22,6 +22,22 @@ const calculateDeltaX = (d1: number, d2: number): number => {
   return deltaX;
 };
 
+function getCircleValue(
+  circle: CircleData,
+  sortBy: "numberOfPersons" | "yearlyTurnOver" | "turnoverPerPerson",
+): number {
+  switch (sortBy) {
+    case "numberOfPersons":
+      return circle.numberOfPersons;
+    case "yearlyTurnOver":
+      return circle.yearlyTurnOver;
+    case "turnoverPerPerson":
+      return circle.numberOfPersons
+        ? circle.yearlyTurnOver / circle.numberOfPersons
+        : 0;
+  }
+}
+
 /**
  * Calculates the translateX offsets for each circle to animate them from their original
  * unsorted position to their new sorted position.
@@ -52,20 +68,7 @@ export function getSortingOffsets(
   let minValue = Infinity;
 
   circles.forEach((circle) => {
-    let value: number;
-    switch (sortBy) {
-      case "numberOfPersons":
-        value = circle.numberOfPersons;
-        break;
-      case "yearlyTurnOver":
-        value = circle.yearlyTurnOver;
-        break;
-      case "turnoverPerPerson":
-        value = circle.numberOfPersons
-          ? circle.yearlyTurnOver / circle.numberOfPersons
-          : 0;
-        break;
-    }
+    const value = getCircleValue(circle, sortBy);
     values.set(circle.id, value);
     if (value < minValue) {
       minValue = value;
@@ -110,22 +113,9 @@ export function getSortedCircles(
   const sortedCircles = [...circles]; // Create a shallow copy to sort
 
   sortedCircles.sort((a, b) => {
-    switch (sortBy) {
-      case "numberOfPersons":
-        return a.numberOfPersons - b.numberOfPersons;
-      case "yearlyTurnOver":
-        return a.yearlyTurnOver - b.yearlyTurnOver;
-      case "turnoverPerPerson":
-        const turnoverA = a.numberOfPersons
-          ? a.yearlyTurnOver / a.numberOfPersons
-          : 0;
-        const turnoverB = b.numberOfPersons
-          ? b.yearlyTurnOver / b.numberOfPersons
-          : 0;
-        return turnoverA - turnoverB;
-      default:
-        return 0; // Should not happen with type checking
-    }
+    const valueA = getCircleValue(a, sortBy);
+    const valueB = getCircleValue(b, sortBy);
+    return valueA - valueB;
   });
 
   return sortedCircles;
