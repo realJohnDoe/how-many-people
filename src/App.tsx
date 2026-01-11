@@ -1,7 +1,5 @@
 import React from "react";
 import { circlesData } from "./data";
-import Circle from "./Circle";
-import InfoBox from "./InfoBox";
 import { getSortedCircles, getSortingOffsets } from "./geometry";
 import AppHeader from "./AppHeader"; // Import AppHeader
 import { ScrollSpace } from "./ScrollSpace";

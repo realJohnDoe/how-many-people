@@ -1,10 +1,6 @@
 // src/geometry.ts
 import { type CircleData } from "./data"; // Import CircleData type
 
-export const TARGET_DIAMETER_REM = 20;
-export const REM_TO_PX = 16;
-export const TARGET_DIAMETER_PX = TARGET_DIAMETER_REM * REM_TO_PX;
-
 type TransformationParams = {
   oldIndexOffset: number;
   scale: number;
