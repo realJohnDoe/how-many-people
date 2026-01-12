@@ -100,7 +100,9 @@ const CirclesLayer: React.FC<CirclesLayerProps> = ({
       {sortedCircles.map((circle, i) => (
         <div
           key={circle.id}
-          ref={(el) => (circleRefs.current[i] = el!)}
+          ref={(el) => {
+            circleRefs.current[i] = el!;
+          }}
           className="absolute"
           style={{
             top: "35%", // bottom alignment reference for circle
