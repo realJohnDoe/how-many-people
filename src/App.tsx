@@ -13,7 +13,9 @@ const GAP_PX = 50; // Hardcoded gap between circles (e.g., equivalent to space-x
 
 // --- The React Component ---
 function App() {
-  const [selectedIndex, setSelectedIndex] = React.useState(0); // floating index in sortedCircles
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const floatingIndexRef = React.useRef(0);
+
   const programmaticChangeRef = React.useRef(false);
   const [orderBy, setOrderBy] = React.useState<
     "numberOfPersons" | "yearlyTurnOver" | "turnoverPerPerson"
@@ -62,16 +64,18 @@ function App() {
         <ScrollSpace
           numItems={circlesData.length}
           itemDistance={itemSpacingPx}
+          floatingIndexRef={floatingIndexRef}
           scrollToIndex={
             programmaticChangeRef.current ? selectedIndex : undefined
           }
           onIndexChange={(index) => {
-            setSelectedIndex(index); // now a float
+            setSelectedIndex(index); // integer only
           }}
         />
       </div>
       <CirclesLayer
-        selectedIndex={selectedIndex}
+        floatingIndexRef={floatingIndexRef}
+        selectedIndex={selectedIndex} // optional, for “isSelected” logic
         itemSpacingPx={itemSpacingPx}
         offsetsMap={offsetsMap}
         sortedCircles={sortedCircles}
