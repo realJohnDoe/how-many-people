@@ -102,35 +102,35 @@ export function ScrollSpace({
   }, [scrollToIndex, itemDistance]);
 
   // --- scroll → float index with soft snapping ---
-  const snapToIndex = (index: number) => {
-    if (!snappingEnabledRef.current) return;
+  // const snapToIndex = (index: number) => {
+  //   if (!snappingEnabledRef.current) return;
 
-    const el = containerRef.current;
-    if (!el) return;
+  //   const el = containerRef.current;
+  //   if (!el) return;
 
-    snappingEnabledRef.current = false;
+  //   snappingEnabledRef.current = false;
 
-    el.scrollTo({
-      left: index * itemDistance,
-      behavior: "smooth",
-    });
+  //   el.scrollTo({
+  //     left: index * itemDistance,
+  //     behavior: "smooth",
+  //   });
 
-    let last = el.scrollLeft;
+  //   let last = el.scrollLeft;
 
-    const waitForSettle = () => {
-      const current = el.scrollLeft;
+  //   const waitForSettle = () => {
+  //     const current = el.scrollLeft;
 
-      if (Math.abs(current - last) < 0.5) {
-        snappingEnabledRef.current = true;
-        return;
-      }
+  //     if (Math.abs(current - last) < 0.5) {
+  //       snappingEnabledRef.current = true;
+  //       return;
+  //     }
 
-      last = current;
-      requestAnimationFrame(waitForSettle);
-    };
+  //     last = current;
+  //     requestAnimationFrame(waitForSettle);
+  //   };
 
-    requestAnimationFrame(waitForSettle);
-  };
+  //   requestAnimationFrame(waitForSettle);
+  // };
 
   React.useEffect(() => {
     const el = containerRef.current;
@@ -182,6 +182,8 @@ export function ScrollSpace({
         w-full h-screen
         overflow-x-scroll overflow-y-hidden
         box-border
+        scroll-px-(--padding-x)
+        snap-x snap-mandatory
       "
       style={{
         paddingLeft: paddingX,
@@ -192,7 +194,7 @@ export function ScrollSpace({
         {Array.from({ length: numItems }).map((_, i) => (
           <div
             key={i}
-            className="shrink-0 flex items-center justify-center text-white font-bold rounded-lg"
+            className="scroll-snap-center shrink-0 flex items-center justify-center text-white font-bold rounded-lg"
             style={{
               width: itemDistance,
               height: 200, // give each item a height

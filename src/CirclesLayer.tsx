@@ -96,7 +96,7 @@ const CirclesLayer: React.FC<CirclesLayerProps> = ({
     return () => cancelAnimationFrame(raf);
   }, [floatingIndexRef, sortedCircles, offsetsMap, itemSpacingPx]);
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-visible">
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
       {sortedCircles.map((circle, i) => (
         <div
           key={circle.id}
