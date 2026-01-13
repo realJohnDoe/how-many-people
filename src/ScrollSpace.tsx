@@ -32,25 +32,25 @@ export function ScrollSpace({
     if (!el) return;
 
     lastScrollLeft.current = el.scrollLeft; // 👈 CRITICAL
-    rafId.current = requestAnimationFrame(checkSettled);
+    // rafId.current = requestAnimationFrame(checkSettled);
   };
 
-  const checkSettled = () => {
-    const el = containerRef.current!;
-    const current = el.scrollLeft;
+  // const checkSettled = () => {
+  //   const el = containerRef.current!;
+  //   const current = el.scrollLeft;
 
-    if (Math.abs(current - lastScrollLeft.current) < 0.5) {
-      // SCROLL HAS SETTLED
-      rafId.current = null;
+  //   if (Math.abs(current - lastScrollLeft.current) < 0.5) {
+  //     // SCROLL HAS SETTLED
+  //     rafId.current = null;
 
-      const snappedIndex = Math.round(current / itemDistance);
-      snapToIndex(snappedIndex);
-      return;
-    }
+  //     const snappedIndex = Math.round(current / itemDistance);
+  //     snapToIndex(snappedIndex);
+  //     return;
+  //   }
 
-    lastScrollLeft.current = current;
-    rafId.current = requestAnimationFrame(checkSettled);
-  };
+  //   lastScrollLeft.current = current;
+  //   rafId.current = requestAnimationFrame(checkSettled);
+  // };
 
   // --- measure container + compute centering padding ---
   React.useEffect(() => {
@@ -194,7 +194,7 @@ export function ScrollSpace({
         {Array.from({ length: numItems }).map((_, i) => (
           <div
             key={i}
-            className="scroll-snap-center shrink-0 flex items-center justify-center text-white font-bold rounded-lg"
+            className="snap-center shrink-0 flex items-center justify-center text-white font-bold rounded-lg"
             style={{
               width: itemDistance,
               height: 200, // give each item a height
