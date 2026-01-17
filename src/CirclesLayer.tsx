@@ -15,12 +15,9 @@ type OffsetsMap = Map<
 interface CirclesLayerProps {
   floatingIndexRef: React.MutableRefObject<number>;
   selectedIndex: number; // still useful, but NOT for interpolation
-  itemSpacingPx: number;
   offsetsMap: OffsetsMap;
   sortedCircles: CircleData[];
 }
-
-const CIRCLE_DIAMETER_REM = 18;
 
 // Linear interpolation helper
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
@@ -28,7 +25,6 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 const CirclesLayer: React.FC<CirclesLayerProps> = ({
   floatingIndexRef,
   selectedIndex,
-  itemSpacingPx,
   offsetsMap,
   sortedCircles,
 }) => {
@@ -64,7 +60,7 @@ const CirclesLayer: React.FC<CirclesLayerProps> = ({
         const scalingOffset =
           (params.scalingOffset - interpolatedScalingOffset) /
           interpolatedScale;
-        const offsetX = scalingOffset * itemSpacingPx;
+
         const scaleFactor = params.scale / interpolatedScale;
 
         // Apply transform **directly on the circle container**
@@ -79,7 +75,7 @@ const CirclesLayer: React.FC<CirclesLayerProps> = ({
 
         // Apply horizontal offset to the outer wrapper
         // Move the wrapper horizontally only
-        el.style.transform = `translateX(${offsetX}px) translate(-50%, 0)`;
+        el.style.transform = `translateX(calc(${scalingOffset} * var(--circle))) translate(-50%, 0)`;
 
         // Scale the circle itself (child div)
         const circleDiv = el.firstElementChild as HTMLDivElement;
@@ -94,7 +90,7 @@ const CirclesLayer: React.FC<CirclesLayerProps> = ({
 
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [floatingIndexRef, sortedCircles, offsetsMap, itemSpacingPx]);
+  }, [floatingIndexRef, sortedCircles, offsetsMap]);
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
       {sortedCircles.map((circle, i) => (
@@ -108,17 +104,12 @@ const CirclesLayer: React.FC<CirclesLayerProps> = ({
             top: "25%", // bottom alignment reference for circle
             left: "50%",
             willChange: "transform",
+            transform: "translateX(-50%)",
           }}
         >
           <div className="relative">
             {/* Circle */}
-            <div
-              className="origin-bottom"
-              style={{
-                width: `${CIRCLE_DIAMETER_REM}rem`,
-                height: `${CIRCLE_DIAMETER_REM}rem`,
-              }}
-            >
+            <div className="origin-bottom w-(--circle) h-(--circle)">
               <Circle circle={circle} isSelected={selectedIndex === i} />
             </div>
 

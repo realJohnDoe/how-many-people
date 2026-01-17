@@ -1,6 +1,8 @@
 // src/geometry.ts
 import { type CircleData } from "./data"; // Import CircleData type
 
+export const ITEM_SPACING_FACTOR = 1.15
+
 type TransformationParams = {
   oldIndexOffset: number;
   scale: number;
@@ -11,7 +13,7 @@ type TransformationParams = {
 const calculateDeltaX = (d1: number, d2: number): number => {
   const r1 = d1 / 2;
   const r2 = d2 / 2;
-  const hypotenuse = r1 + r2 - Math.min(r1, r2) * 0.3;
+  const hypotenuse = r1 + r2 + Math.min(r1, r2) * (ITEM_SPACING_FACTOR - 1);
   const vertical = Math.abs(r1 - r2);
   const deltaX = Math.sqrt(hypotenuse ** 2 - vertical ** 2);
   console.log(r1, r2, deltaX);

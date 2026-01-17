@@ -59,27 +59,28 @@ function App() {
 
   return (
     <>
-      <AppHeader orderBy={orderBy} setOrderBy={handleOrderChange} />
-      <div className="relative h-dvh overflow-x-auto overflow-y-hidden">
-        <ScrollSpace
-          numItems={circlesData.length}
-          itemDistance={itemSpacingPx}
+      <div className="relative [--circle:16rem] md:[--circle:18rem] lg:[--circle:20rem]">
+        <AppHeader orderBy={orderBy} setOrderBy={handleOrderChange} />
+        <div className="relative h-dvh overflow-x-auto overflow-y-hidden">
+          <ScrollSpace
+            numItems={circlesData.length}
+            itemDistance={itemSpacingPx}
+            floatingIndexRef={floatingIndexRef}
+            scrollToIndex={
+              programmaticChangeRef.current ? selectedIndex : undefined
+            }
+            onIndexChange={(index) => {
+              setSelectedIndex(index); // integer only
+            }}
+          />
+        </div>
+        <CirclesLayer
           floatingIndexRef={floatingIndexRef}
-          scrollToIndex={
-            programmaticChangeRef.current ? selectedIndex : undefined
-          }
-          onIndexChange={(index) => {
-            setSelectedIndex(index); // integer only
-          }}
+          selectedIndex={selectedIndex} // optional, for “isSelected” logic
+          offsetsMap={offsetsMap}
+          sortedCircles={sortedCircles}
         />
       </div>
-      <CirclesLayer
-        floatingIndexRef={floatingIndexRef}
-        selectedIndex={selectedIndex} // optional, for “isSelected” logic
-        itemSpacingPx={itemSpacingPx}
-        offsetsMap={offsetsMap}
-        sortedCircles={sortedCircles}
-      />
     </>
   );
 }
