@@ -7,8 +7,6 @@ import CirclesLayer from "./CirclesLayer";
 
 // --- Constants ---
 const REM_TO_PX = 16;
-const CIRCLE_DIAMETER_REM = 20;
-const CIRCLE_DIAMETER_PX = CIRCLE_DIAMETER_REM * REM_TO_PX;
 const GAP_PX = 50; // Hardcoded gap between circles (e.g., equivalent to space-x-8)
 
 // --- The React Component ---
@@ -23,7 +21,6 @@ function App() {
   // Removed itemSpacingPx state and its useEffect for dynamic measurement
 
   // Use the new getSortingOffsets function with dynamically measured itemSpacingPx
-  const itemSpacingPx = CIRCLE_DIAMETER_PX + GAP_PX; // Derived from constants
 
   const offsetsMap = React.useMemo(() => {
     return getSortingOffsets(circlesData, orderBy);
@@ -57,14 +54,35 @@ function App() {
     programmaticChangeRef.current = false;
   }, [selectedIndex]);
 
+  // Compute circle size in pixels for scroll space
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const [itemDistance, setItemDistance] = React.useState(0);
+
+  React.useEffect(() => {
+    if (containerRef.current) {
+      const style = getComputedStyle(containerRef.current);
+      const circlePx = style.getPropertyValue("--circle"); // e.g., "16rem"
+
+      // Convert rem to px if needed
+      const px = circlePx.includes("rem")
+        ? parseFloat(circlePx) * REM_TO_PX
+        : parseFloat(circlePx);
+
+      setItemDistance(px + GAP_PX); // include your gap
+    }
+  }, []);
+
   return (
     <>
-      <div className="relative [--circle:16rem] md:[--circle:18rem] lg:[--circle:20rem]">
+      <div
+        ref={containerRef}
+        className="relative [--circle:16rem] md:[--circle:18rem] lg:[--circle:20rem]"
+      >
         <AppHeader orderBy={orderBy} setOrderBy={handleOrderChange} />
         <div className="relative h-dvh overflow-x-auto overflow-y-hidden">
           <ScrollSpace
             numItems={circlesData.length}
-            itemDistance={itemSpacingPx}
+            itemDistance={itemDistance}
             floatingIndexRef={floatingIndexRef}
             scrollToIndex={
               programmaticChangeRef.current ? selectedIndex : undefined
